@@ -7,8 +7,8 @@
 <meta name="description" content="هايبر البركة - تسوق مستلزماتك اليومية بأفضل الأسعار واطلب أونلاين.">
 <meta name="theme-color" content="#1fa045">
 
-<!-- ===== PWA Manifest with Real Arabic SVG Icon ===== -->
-<link rel="manifest" href='data:application/manifest+json,{"name":"هايبر البركة","short_name":"البركة","start_url":"./","display":"standalone","background_color":"%23f6f8f5","theme_color":"%231fa045","lang":"ar","dir":"rtl","icons":[{"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%231fa045%22/%3E%3Ctext x=%22256%22 y=%22280%22 font-size=%22120%22 font-family=%22Cairo,sans-serif%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"},{"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%231fa045%22/%3E%3Ctext x=%22256%22 y=%22280%22 font-size=%22120%22 font-family=%22Cairo,sans-serif%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
+<!-- ===== PWA Manifest ===== -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"هايبر البركة","short_name":"البركة","start_url":"./","display":"standalone","background_color":"%23f6f8f5","theme_color":"%231fa045","lang":"ar","dir":"rtl","icons":[{"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%231fa045%22/%3E%3Ctext x=%22256%22 y=%22280%22 font-size=%22100%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"},{"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%231fa045%22/%3E%3Ctext x=%22256%22 y=%22280%22 font-size=%22100%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="هايبر البركة">
@@ -330,7 +330,6 @@
     measurementId: "G-Y59JYC9HBX"
   };
 
-  // رقم هاتف الأدمن
   const ADMIN_PHONE = "01123543649";
   let isCurrentUserAdmin = false;
 
@@ -339,49 +338,59 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  /* ================= واجهة المتجر ================= */
-  function initShop(){
-
-  let products = [], cart = {}, activeCat = "الكل", q = "";
-  const $ = id => document.getElementById(id);
-  const money = n => Number(n).toLocaleString("ar-EG") + " ج.م";
-  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const toast = msg => { const t=$("toast"); t.textContent=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2500); };
-
-  try { cart = JSON.parse(localStorage.getItem("baraka_cart")||"{}"); } catch { cart = {}; }
-  const saveCart = () => { try{localStorage.setItem("baraka_cart",JSON.stringify(cart));}catch{} };
-
-  // شاشة تسجيل الدخول للمستخدم
-  const userLoginModal = $("userLoginModal");
-  const userPhoneInput = $("userPhoneInput");
-  const userLoginErr = $("userLoginErr");
-  
-  function checkUserAuth() {
-    const savedPhone = localStorage.getItem("baraka_user_phone");
-    if (savedPhone) {
-      if (savedPhone === ADMIN_PHONE) {
-        isCurrentUserAdmin = true;
-        $("adminBtn").classList.remove("hidden");
-        $("adminBtn").classList.add("show");
-      } else {
-        $("adminBtn").classList.add("hidden");
+  // دالة تسجيل الدخول المجهول (للمستخدمين العاديين فقط لتخزين طلباتهم)
+  async function ensureAnonymousAuth() {
+    if (!auth.currentUser) {
+      try {
+        await signInAnonymously(auth);
+        console.log("تم تسجيل الدخول المجهول بنجاح");
+      } catch (err) {
+        console.error("فشل تسجيل الدخول المجهول:", err);
       }
-    } else {
-      userLoginModal.classList.add("show");
     }
   }
 
-  $("userLoginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const phone = userPhoneInput.value.trim();
-    if (phone.length < 11) {
-      userLoginErr.textContent = "يرجى إدخال رقم هاتف صحيح (11 رقم)";
-      return;
+  /* ================= واجهة المتجر ================= */
+  function initShop(){
+    let products = [], cart = {}, activeCat = "الكل", q = "";
+    const $ = id => document.getElementById(id);
+    const money = n => Number(n).toLocaleString("ar-EG") + " ج.م";
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const toast = msg => { const t=$("toast"); t.textContent=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2500); };
+
+    try { cart = JSON.parse(localStorage.getItem("baraka_cart")||"{}"); } catch { cart = {}; }
+    const saveCart = () => { try{localStorage.setItem("baraka_cart",JSON.stringify(cart));}catch{} };
+
+    const userLoginModal = $("userLoginModal");
+    const userPhoneInput = $("userPhoneInput");
+    const userLoginErr = $("userLoginErr");
+    
+    function checkUserAuth() {
+      const savedPhone = localStorage.getItem("baraka_user_phone");
+      if (savedPhone) {
+        if (savedPhone === ADMIN_PHONE) {
+          isCurrentUserAdmin = true;
+          $("adminBtn").classList.remove("hidden");
+          $("adminBtn").classList.add("show");
+        } else {
+          $("adminBtn").classList.add("hidden");
+        }
+      } else {
+        userLoginModal.classList.add("show");
+      }
     }
-    userLoginErr.textContent = "";
-    try {
-      // تسجيل دخول مجهول في Firebase لتخزين الطلبات
-      await signInAnonymously(auth);
+
+    $("userLoginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const phone = userPhoneInput.value.trim();
+      if (phone.length < 11) {
+        userLoginErr.textContent = "يرجى إدخال رقم هاتف صحيح (11 رقم)";
+        return;
+      }
+      userLoginErr.textContent = "";
+      
+      await ensureAnonymousAuth();
+      
       localStorage.setItem("baraka_user_phone", phone);
       
       if (phone === ADMIN_PHONE) {
@@ -394,353 +403,338 @@
         toast("تم تسجيل الدخول بنجاح!");
       }
       userLoginModal.classList.remove("show");
-    } catch (err) {
-      console.error(err);
-      userLoginErr.textContent = "حدث خطأ أثناء تسجيل الدخول. تأكد من تفعيل Anonymous Auth في Firebase.";
+    });
+
+    $("closeUserLogin").addEventListener("click", () => {
+      userLoginModal.classList.remove("show");
+    });
+
+    checkUserAuth();
+
+    onSnapshot(collection(db,"products"), snap => {
+      products = snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.available!==false);
+      if(activeCat!=="الكل" && !products.some(p=>p.category===activeCat)) activeCat="الكل";
+      renderCats(); renderProducts();
+    }, err => { console.warn("تعذر تحميل المنتجات", err); renderCats(); renderProducts(); });
+
+    function renderCats(){
+      const cats = [...new Set(products.map(p=>p.category).filter(Boolean))];
+      $("cats").innerHTML = cats.length ? ["الكل",...cats].map(c=>`<button class="cat ${c===activeCat?"active":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("") : "";
     }
-  });
 
-  $("closeUserLogin").addEventListener("click", () => {
-    userLoginModal.classList.remove("show");
-  });
-
-  // التحقق من حالة الدخول عند التحميل
-  checkUserAuth();
-
-  // المنتجات تتحدث لحظياً
-  onSnapshot(collection(db,"products"), snap => {
-    products = snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.available!==false);
-    if(activeCat!=="الكل" && !products.some(p=>p.category===activeCat)) activeCat="الكل";
-    renderCats(); renderProducts();
-  }, err => { console.warn("تعذر تحميل المنتجات", err); renderCats(); renderProducts(); });
-
-  function renderCats(){
-    const cats = [...new Set(products.map(p=>p.category).filter(Boolean))];
-    $("cats").innerHTML = cats.length ? ["الكل",...cats].map(c=>`<button class="cat ${c===activeCat?"active":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("") : "";
-  }
-
-  function renderProducts(){
-    if(!products.length){
-      $("grid").innerHTML = `<div class="empty"><b>🛒</b>الهايبر قيد التجهيز، ترقبوا منتجاتنا قريباً</div>`;
-      return;
+    function renderProducts(){
+      if(!products.length){
+        $("grid").innerHTML = `<div class="empty"><b>🛒</b>الهايبر قيد التجهيز، ترقبوا منتجاتنا قريباً</div>`;
+        return;
+      }
+      const list = products.filter(p => (activeCat==="الكل"||p.category===activeCat) && (p.name||"").includes(q));
+      $("grid").innerHTML = list.length ? list.map(p=>`
+        <div class="card">
+          <div class="pic">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}">`:"🛍️"}</div>
+          <div>${esc(p.name)}</div>
+          <div><span class="price">${money(p.price)}</span>${p.old?`<span class="old">${money(p.old)}</span>`:""}</div>
+          <button class="add" data-id="${esc(p.id)}">أضف للسلة</button>
+        </div>`).join("") : `<div class="empty">لا توجد منتجات مطابقة</div>`;
     }
-    const list = products.filter(p => (activeCat==="الكل"||p.category===activeCat) && (p.name||"").includes(q));
-    $("grid").innerHTML = list.length ? list.map(p=>`
-      <div class="card">
-        <div class="pic">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}">`:"🛍️"}</div>
-        <div>${esc(p.name)}</div>
-        <div><span class="price">${money(p.price)}</span>${p.old?`<span class="old">${money(p.old)}</span>`:""}</div>
-        <button class="add" data-id="${esc(p.id)}">أضف للسلة</button>
-      </div>`).join("") : `<div class="empty">لا توجد منتجات مطابقة</div>`;
-  }
 
-  function renderCart(){
-    const ids = Object.keys(cart);
-    let total=0, count=0;
-    $("items").innerHTML = ids.length ? ids.map(id=>{
-      const i=cart[id]; total+=i.price*i.qty; count+=i.qty;
-      return `<div class="item"><div class="nm">${esc(i.name)}<br><small>${money(i.price)}</small></div>
-        <div class="qty"><button data-a="minus" data-id="${esc(id)}">−</button><b>${i.qty}</b><button data-a="plus" data-id="${esc(id)}">+</button></div></div>`;
-    }).join("") : `<div class="empty">السلة فاضية</div>`;
-    $("total").textContent = money(total);
-    $("cartCount").textContent = count;
-    $("sendBtn").disabled = !ids.length;
-    saveCart();
-  }
-
-  const openCart = o => { $("drawer").classList.toggle("show",o); $("overlay").classList.toggle("show",o); };
-
-  $("cats").addEventListener("click",e=>{ const c=e.target.dataset.c; if(!c)return; activeCat=c; renderCats(); renderProducts(); });
-  $("search").addEventListener("input",e=>{ q=e.target.value.trim(); renderProducts(); });
-  $("grid").addEventListener("click",e=>{
-    const id=e.target.dataset.id; if(!id)return;
-    const p=products.find(x=>x.id===id); if(!p)return;
-    cart[id]=cart[id]||{name:p.name,price:+p.price,qty:0}; cart[id].qty++;
-    renderCart(); toast("تمت الإضافة للسلة ✔");
-  });
-  $("items").addEventListener("click",e=>{
-    const {a,id}=e.target.dataset; if(!a)return;
-    cart[id].qty += a==="plus"?1:-1;
-    if(cart[id].qty<=0) delete cart[id];
-    renderCart();
-  });
-  $("openCart").onclick=()=>openCart(true);
-  $("closeCart").onclick=$("overlay").onclick=()=>openCart(false);
-
-  $("orderForm").addEventListener("submit", async e=>{
-    e.preventDefault();
-    const items = Object.values(cart);
-    if(!items.length) return;
-    $("sendBtn").disabled = true;
-    try{
-      const userPhone = localStorage.getItem("baraka_user_phone") || "غير مسجل";
-      await addDoc(collection(db,"orders"),{
-        name:$("cName").value.trim(),
-        phone:$("cPhone").value.trim(),
-        userPhone: userPhone,
-        address:$("cAddr").value.trim(),
-        items,
-        total:items.reduce((s,i)=>s+i.price*i.qty,0),
-        status:"new",
-        createdAt:serverTimestamp()
-      });
-      cart={}; renderCart(); e.target.reset(); openCart(false);
-      toast("تم إرسال طلبك بنجاح، هنتواصل معاك قريب 🌟");
-    }catch(err){
-      console.error(err);
-      toast("حصل خطأ في إرسال الطلب، حاول تاني");
-      $("sendBtn").disabled = false;
+    function renderCart(){
+      const ids = Object.keys(cart);
+      let total=0, count=0;
+      $("items").innerHTML = ids.length ? ids.map(id=>{
+        const i=cart[id]; total+=i.price*i.qty; count+=i.qty;
+        return `<div class="item"><div class="nm">${esc(i.name)}<br><small>${money(i.price)}</small></div>
+          <div class="qty"><button data-a="minus" data-id="${esc(id)}">−</button><b>${i.qty}</b><button data-a="plus" data-id="${esc(id)}">+</button></div></div>`;
+      }).join("") : `<div class="empty">السلة فاضية</div>`;
+      $("total").textContent = money(total);
+      $("cartCount").textContent = count;
+      $("sendBtn").disabled = !ids.length;
+      saveCart();
     }
-  });
 
-  $("year").textContent = new Date().getFullYear();
-  renderCats(); renderProducts(); renderCart();
-}
+    const openCart = o => { $("drawer").classList.toggle("show",o); $("overlay").classList.toggle("show",o); };
+
+    $("cats").addEventListener("click",e=>{ const c=e.target.dataset.c; if(!c)return; activeCat=c; renderCats(); renderProducts(); });
+    $("search").addEventListener("input",e=>{ q=e.target.value.trim(); renderProducts(); });
+    $("grid").addEventListener("click",e=>{
+      const id=e.target.dataset.id; if(!id)return;
+      const p=products.find(x=>x.id===id); if(!p)return;
+      cart[id]=cart[id]||{name:p.name,price:+p.price,qty:0}; cart[id].qty++;
+      renderCart(); toast("تمت الإضافة للسلة ✔");
+    });
+    $("items").addEventListener("click",e=>{
+      const {a,id}=e.target.dataset; if(!a)return;
+      cart[id].qty += a==="plus"?1:-1;
+      if(cart[id].qty<=0) delete cart[id];
+      renderCart();
+    });
+    $("openCart").onclick=()=>openCart(true);
+    $("closeCart").onclick=$("overlay").onclick=()=>openCart(false);
+
+    $("orderForm").addEventListener("submit", async e=>{
+      e.preventDefault();
+      const items = Object.values(cart);
+      if(!items.length) return;
+      $("sendBtn").disabled = true;
+      
+      await ensureAnonymousAuth();
+      
+      try{
+        const userPhone = localStorage.getItem("baraka_user_phone") || "غير مسجل";
+        await addDoc(collection(db,"orders"),{
+          name:$("cName").value.trim(),
+          phone:$("cPhone").value.trim(),
+          userPhone: userPhone,
+          address:$("cAddr").value.trim(),
+          items,
+          total:items.reduce((s,i)=>s+i.price*i.qty,0),
+          status:"new",
+          createdAt:serverTimestamp()
+        });
+        cart={}; renderCart(); e.target.reset(); openCart(false);
+        toast("تم إرسال طلبك بنجاح، هنتواصل معاك قريب 🌟");
+      }catch(err){
+        console.error(err);
+        toast("حصل خطأ في إرسال الطلب، حاول تاني");
+        $("sendBtn").disabled = false;
+      }
+    });
+
+    $("year").textContent = new Date().getFullYear();
+    renderCats(); renderProducts(); renderCart();
+  }
 
   /* ================= لوحة التحكم ================= */
   function initAdmin(){
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const money = n => Number(n||0).toLocaleString("ar-EG") + " ج.م";
+    const toast = m => { const t=$("toast"); t.textContent=m; t.style.display="block"; setTimeout(()=>t.style.display="none",2500); };
+    const STATUS = {new:"جديد",preparing:"قيد التجهيز",delivered:"تم التسليم",cancelled:"ملغي"};
 
-  const $ = id => document.getElementById(id);
-  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const money = n => Number(n||0).toLocaleString("ar-EG") + " ج.م";
-  const toast = m => { const t=$("toast"); t.textContent=m; t.style.display="block"; setTimeout(()=>t.style.display="none",2500); };
-  const STATUS = {new:"جديد",preparing:"قيد التجهيز",delivered:"تم التسليم",cancelled:"ملغي"};
+    let products = [], orders = [], editingId = null, imageData = null, unsubs = [];
 
-  let products = [], orders = [], editingId = null, imageData = null, unsubs = [];
-
-  /* ---------- الدخول ---------- */
-  $("loginForm").addEventListener("submit", async e=>{
-    e.preventDefault(); $("loginErr").textContent="";
-    const phone = $("adminPhone").value.trim();
-    if (phone === ADMIN_PHONE) {
-      localStorage.setItem("baraka_user_phone", phone);
-      isCurrentUserAdmin = true;
-      $("adminBtn").classList.remove("hidden");
-      $("adminBtn").classList.add("show");
-      
-      // محاولة تسجيل الدخول المجهول لـ Firebase (إذا لم يكن مسجل)
-      if (!auth.currentUser) {
-        try { await signInAnonymously(auth); } catch(err) { console.log(err); }
+    $("loginForm").addEventListener("submit", async e=>{
+      e.preventDefault(); $("loginErr").textContent="";
+      const phone = $("adminPhone").value.trim();
+      if (phone === ADMIN_PHONE) {
+        localStorage.setItem("baraka_user_phone", phone);
+        isCurrentUserAdmin = true;
+        $("adminBtn").classList.remove("hidden");
+        $("adminBtn").classList.add("show");
+        
+        await ensureAnonymousAuth();
+        
+        $("loginView").classList.add("hidden");
+        $("appView").classList.remove("hidden");
+        loadAdminData();
+      } else {
+        $("loginErr").textContent="عذراً، هذا الرقم غير مصرح له بالدخول للوحة التحكم.";
       }
-      
-      $("loginView").classList.add("hidden");
-      $("appView").classList.remove("hidden");
-      loadAdminData();
-    } else {
-      $("loginErr").textContent="عذراً، هذا الرقم غير مصرح له بالدخول للوحة التحكم.";
-    }
-  });
-
-  $("logout").onclick = async () => {
-    localStorage.removeItem("baraka_user_phone");
-    isCurrentUserAdmin = false;
-    $("adminBtn").classList.add("hidden");
-    try { await signOut(auth); } catch(e) {}
-    location.hash = "";
-    location.reload();
-  };
-
-  function loadAdminData() {
-    unsubs.forEach(u=>u()); unsubs=[];
-    
-    unsubs.push(onSnapshot(collection(db,"products"), s=>{
-      products = s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||"","ar"));
-      renderProducts(); renderStats();
-    }, e=>toast("تعذر تحميل المنتجات - راجع قواعد Firestore")));
-    
-    unsubs.push(onSnapshot(query(collection(db,"orders"),orderBy("createdAt","desc")), s=>{
-      const oldOrdersCount = orders.length;
-      const oldNewCount = orders.filter(o=>o.status==="new").length;
-      
-      orders = s.docs.map(d=>({id:d.id,...d.data()}));
-      renderOrders(); renderStats();
-      
-      // إشعار عند وصول طلب جديد
-      const newCount = orders.filter(o=>o.status==="new").length;
-      if (newCount > oldNewCount && oldOrdersCount > 0) {
-        if ("Notification" in window && Notification.permission === "granted") {
-          new Notification("🛍️ هايبر البركة", {
-            body: "وصلك طلب جديد! يرجى مراجعته في لوحة التحكم.",
-            icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231fa045'/%3E%3Ctext x='50' y='60' font-size='30' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3Eالبركة%3C/text%3E%3C/svg%3E"
-          });
-        }
-        toast("🔔 وصلك طلب جديد!");
-      }
-    }, e=>toast("تعذر تحميل الطلبات - راجع قواعد Firestore")));
-  }
-
-  /* ---------- الإشعارات ---------- */
-  $("notifyBtn").addEventListener("click", async () => {
-    if (!("Notification" in window)) {
-      toast("متصفحك لا يدعم الإشعارات");
-      return;
-    }
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      toast("تم تفعيل الإشعارات بنجاح! ستصلك تنبيهات بالطلبات الجديدة.");
-      $("notifyBtn").style.display = "none";
-    } else {
-      toast("تم رفض الإشعارات. يمكنك تفعيلها من إعدادات المتصفح.");
-    }
-  });
-
-  /* ---------- التبويبات ---------- */
-  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
-    ["dash","orders","products"].forEach(t=>$("t-"+t).classList.toggle("hidden",t!==b.dataset.t));
-  });
-
-  /* ---------- الإحصائيات ---------- */
-  const isToday = ts => { if(!ts?.toDate) return false; const d=ts.toDate(), n=new Date(); return d.toDateString()===n.toDateString(); };
-  function renderStats(){
-    const nw = orders.filter(o=>o.status==="new").length;
-    $("sProducts").textContent = products.length;
-    $("sNew").textContent = nw;
-    $("newBadge").textContent = nw; $("newBadge").classList.toggle("hidden",!nw);
-    const today = orders.filter(o=>isToday(o.createdAt));
-    $("sToday").textContent = today.length;
-    $("sSales").textContent = money(today.filter(o=>o.status==="delivered").reduce((s,o)=>s+(+o.total||0),0));
-    $("recent").innerHTML = orders.slice(0,5).map(orderHtml).join("") || `<div class="empty">لا توجد طلبات بعد</div>`;
-    bindOrderActions($("recent"));
-  }
-
-  /* ---------- الطلبات ---------- */
-  function orderHtml(o){
-    const when = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleString("ar-EG") : "";
-    return `<div class="order ${o.status==="new"?"new":""}">
-      <div class="row"><b>${esc(o.name)}</b><span class="st ${esc(o.status)}">${STATUS[o.status]||esc(o.status)}</span></div>
-      <div class="row"><a href="tel:${esc(o.phone)}">📞 ${esc(o.phone)}</a><small>${when}</small></div>
-      <div>📍 ${esc(o.address)}</div>
-      <ul>${(o.items||[]).map(i=>`<li>${esc(i.name)} × ${i.qty} — ${money(i.price*i.qty)}</li>`).join("")}</ul>
-      <div class="row"><b>الإجمالي: ${money(o.total)}</b>
-        <span style="display:flex;gap:6px;flex-wrap:wrap">
-          <select data-os="${esc(o.id)}" style="width:auto">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${o.status===k?"selected":""}>${v}</option>`).join("")}</select>
-          <button class="btn danger small" data-od="${esc(o.id)}">حذف</button>
-        </span></div>
-    </div>`;
-  }
-  function bindOrderActions(root){
-    root.querySelectorAll("[data-os]").forEach(s=>s.onchange=async()=>{
-      try{ await updateDoc(doc(db,"orders",s.dataset.os),{status:s.value}); toast("تم تحديث الحالة"); }catch{ toast("فشل التحديث"); }
     });
-    root.querySelectorAll("[data-od]").forEach(b=>b.onclick=async()=>{
-      if(!confirm("حذف الطلب نهائياً؟")) return;
-      try{ await deleteDoc(doc(db,"orders",b.dataset.od)); toast("تم الحذف"); }catch{ toast("فشل الحذف"); }
-    });
-  }
-  function renderOrders(){
-    const f=$("orderFilter").value;
-    const list = orders.filter(o=>f==="all"||o.status===f);
-    $("orders").innerHTML = list.map(orderHtml).join("") || `<div class="empty">لا توجد طلبات</div>`;
-    bindOrderActions($("orders"));
-  }
-  $("orderFilter").onchange = renderOrders;
 
-  /* ---------- المنتجات ---------- */
-  function renderProducts(){
-    const q = $("pSearch").value.trim();
-    $("catList").innerHTML = [...new Set(products.map(p=>p.category).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join("");
-    const list = products.filter(p=>(p.name||"").includes(q));
-    $("plist").innerHTML = list.map(p=>`<div class="pcard">
-      ${p.image?`<img src="${esc(p.image)}" alt="">`:`<div class="ph">🛍️</div>`}
-      <b>${esc(p.name)}</b>
-      <div>${money(p.price)} ${p.old?`<s style="color:#9ca3af">${money(p.old)}</s>`:""}</div>
-      <div>${p.category?`<span class="tag">${esc(p.category)}</span>`:""} <span class="tag ${p.available===false?"off":""}">${p.available===false?"مخفي":"متاح"}</span></div>
-      <div class="acts"><button class="btn small" data-pe="${esc(p.id)}">تعديل</button><button class="btn danger small" data-pd="${esc(p.id)}">حذف</button></div>
-    </div>`).join("") || `<div class="empty" style="grid-column:1/-1">لا توجد منتجات، أضف أول منتج من النموذج بالأعلى</div>`;
-    $("plist").querySelectorAll("[data-pe]").forEach(b=>b.onclick=()=>editProduct(b.dataset.pe));
-    $("plist").querySelectorAll("[data-pd]").forEach(b=>b.onclick=async()=>{
-      if(!confirm("حذف المنتج نهائياً؟")) return;
-      try{ await deleteDoc(doc(db,"products",b.dataset.pd)); toast("تم حذف المنتج"); }catch{ toast("فشل الحذف"); }
-    });
-  }
-  $("pSearch").oninput = renderProducts;
-
-  // تصغير الصورة قبل الحفظ
-  function shrink(file, max=480){
-    return new Promise((res,rej)=>{
-      const img = new Image(), url = URL.createObjectURL(file);
-      img.onload = ()=>{
-        const r = Math.min(1, max/Math.max(img.width,img.height));
-        const c = document.createElement("canvas");
-        c.width = Math.round(img.width*r); c.height = Math.round(img.height*r);
-        c.getContext("2d").drawImage(img,0,0,c.width,c.height);
-        URL.revokeObjectURL(url);
-        res(c.toDataURL("image/jpeg",0.82));
-      };
-      img.onerror = rej; img.src = url;
-    });
-  }
-  $("pFile").onchange = async e=>{
-    const f = e.target.files[0]; if(!f) return;
-    try{ imageData = await shrink(f); $("pPrev").src = imageData; $("pPrev").classList.remove("hidden"); }
-    catch{ toast("تعذر قراءة الصورة"); }
-  };
-
-  function resetForm(){
-    editingId=null; imageData=null;
-    $("pForm").reset(); $("pPrev").classList.add("hidden"); $("pPrev").removeAttribute("src");
-    $("formTitle").textContent="إضافة منتج"; $("pCancel").classList.add("hidden");
-  }
-  function editProduct(id){
-    const p = products.find(x=>x.id===id); if(!p) return;
-    editingId=id; imageData=p.image||null;
-    $("pName").value=p.name||""; $("pPrice").value=p.price??""; $("pOld").value=p.old??"";
-    $("pCat").value=p.category||""; $("pAvail").value=p.available===false?"0":"1";
-    if(p.image){ $("pPrev").src=p.image; $("pPrev").classList.remove("hidden"); } else $("pPrev").classList.add("hidden");
-    $("formTitle").textContent="تعديل المنتج"; $("pCancel").classList.remove("hidden");
-    $("pForm").scrollIntoView({behavior:"smooth",block:"center"});
-  }
-  $("pCancel").onclick = resetForm;
-
-  // دالة حفظ المنتج الأساسية
-  async function saveProduct(keepOpen = false) {
-    const data = {
-      name: $("pName").value.trim(),
-      price: +$("pPrice").value,
-      old: $("pOld").value ? +$("pOld").value : null,
-      category: $("pCat").value.trim(),
-      available: $("pAvail").value==="1",
-      image: imageData || "",
-      updatedAt: serverTimestamp()
+    $("logout").onclick = async () => {
+      localStorage.removeItem("baraka_user_phone");
+      isCurrentUserAdmin = false;
+      $("adminBtn").classList.add("hidden");
+      try { await signOut(auth); } catch(e) {}
+      location.hash = "";
+      location.reload();
     };
-    if (!data.name || isNaN(data.price)) {
-      toast("يرجى إدخال اسم المنتج والسعر");
-      return;
+
+    function loadAdminData() {
+      unsubs.forEach(u=>u()); unsubs=[];
+      
+      unsubs.push(onSnapshot(collection(db,"products"), s=>{
+        products = s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||"","ar"));
+        renderProducts(); renderStats();
+      }, e=>toast("تعذر تحميل المنتجات - راجع قواعد Firestore")));
+      
+      unsubs.push(onSnapshot(query(collection(db,"orders"),orderBy("createdAt","desc")), s=>{
+        const oldOrdersCount = orders.length;
+        const oldNewCount = orders.filter(o=>o.status==="new").length;
+        
+        orders = s.docs.map(d=>({id:d.id,...d.data()}));
+        renderOrders(); renderStats();
+        
+        const newCount = orders.filter(o=>o.status==="new").length;
+        if (newCount > oldNewCount && oldOrdersCount > 0) {
+          if ("Notification" in window && Notification.permission === "granted") {
+            new Notification("🛍️ هايبر البركة", {
+              body: "وصلك طلب جديد! يرجى مراجعته في لوحة التحكم.",
+              icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231fa045'/%3E%3Ctext x='50' y='60' font-size='30' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3Eالبركة%3C/text%3E%3C/svg%3E"
+            });
+          }
+          toast("🔔 وصلك طلب جديد!");
+        }
+      }, e=>toast("تعذر تحميل الطلبات - راجع قواعد Firestore")));
     }
-    $("pSave").disabled = true;
-    $("pSaveAdd").disabled = true;
-    try{
-      if(editingId) await setDoc(doc(db,"products",editingId), data, {merge:true});
-      else await addDoc(collection(db,"products"), {...data, createdAt: serverTimestamp()});
-      toast(editingId?"تم تحديث المنتج ✔":"تمت إضافة المنتج ✔");
-      resetForm();
-      if (keepOpen) {
-        $("pName").focus();
+
+    $("notifyBtn").addEventListener("click", async () => {
+      if (!("Notification" in window)) {
+        toast("متصفحك لا يدعم الإشعارات");
+        return;
       }
-    }catch(err){ console.error(err); toast("فشل الحفظ - تأكد من صلاحيات Firestore"); }
-    $("pSave").disabled = false;
-    $("pSaveAdd").disabled = false;
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        toast("تم تفعيل الإشعارات بنجاح! ستصلك تنبيهات بالطلبات الجديدة.");
+        $("notifyBtn").style.display = "none";
+      } else {
+        toast("تم رفض الإشعارات. يمكنك تفعيلها من إعدادات المتصفح.");
+      }
+    });
+
+    document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+      document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+      ["dash","orders","products"].forEach(t=>$("t-"+t).classList.toggle("hidden",t!==b.dataset.t));
+    });
+
+    const isToday = ts => { if(!ts?.toDate) return false; const d=ts.toDate(), n=new Date(); return d.toDateString()===n.toDateString(); };
+    function renderStats(){
+      const nw = orders.filter(o=>o.status==="new").length;
+      $("sProducts").textContent = products.length;
+      $("sNew").textContent = nw;
+      $("newBadge").textContent = nw; $("newBadge").classList.toggle("hidden",!nw);
+      const today = orders.filter(o=>isToday(o.createdAt));
+      $("sToday").textContent = today.length;
+      $("sSales").textContent = money(today.filter(o=>o.status==="delivered").reduce((s,o)=>s+(+o.total||0),0));
+      $("recent").innerHTML = orders.slice(0,5).map(orderHtml).join("") || `<div class="empty">لا توجد طلبات بعد</div>`;
+      bindOrderActions($("recent"));
+    }
+
+    function orderHtml(o){
+      const when = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleString("ar-EG") : "";
+      return `<div class="order ${o.status==="new"?"new":""}">
+        <div class="row"><b>${esc(o.name)}</b><span class="st ${esc(o.status)}">${STATUS[o.status]||esc(o.status)}</span></div>
+        <div class="row"><a href="tel:${esc(o.phone)}">📞 ${esc(o.phone)}</a><small>${when}</small></div>
+        <div>📍 ${esc(o.address)}</div>
+        <ul>${(o.items||[]).map(i=>`<li>${esc(i.name)} × ${i.qty} — ${money(i.price*i.qty)}</li>`).join("")}</ul>
+        <div class="row"><b>الإجمالي: ${money(o.total)}</b>
+          <span style="display:flex;gap:6px;flex-wrap:wrap">
+            <select data-os="${esc(o.id)}" style="width:auto">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${o.status===k?"selected":""}>${v}</option>`).join("")}</select>
+            <button class="btn danger small" data-od="${esc(o.id)}">حذف</button>
+          </span></div>
+      </div>`;
+    }
+    function bindOrderActions(root){
+      root.querySelectorAll("[data-os]").forEach(s=>s.onchange=async()=>{
+        try{ await updateDoc(doc(db,"orders",s.dataset.os),{status:s.value}); toast("تم تحديث الحالة"); }catch{ toast("فشل التحديث"); }
+      });
+      root.querySelectorAll("[data-od]").forEach(b=>b.onclick=async()=>{
+        if(!confirm("حذف الطلب نهائياً؟")) return;
+        try{ await deleteDoc(doc(db,"orders",b.dataset.od)); toast("تم الحذف"); }catch{ toast("فشل الحذف"); }
+      });
+    }
+    function renderOrders(){
+      const f=$("orderFilter").value;
+      const list = orders.filter(o=>f==="all"||o.status===f);
+      $("orders").innerHTML = list.map(orderHtml).join("") || `<div class="empty">لا توجد طلبات</div>`;
+      bindOrderActions($("orders"));
+    }
+    $("orderFilter").onchange = renderOrders;
+
+    function renderProducts(){
+      const q = $("pSearch").value.trim();
+      $("catList").innerHTML = [...new Set(products.map(p=>p.category).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join("");
+      const list = products.filter(p=>(p.name||"").includes(q));
+      $("plist").innerHTML = list.map(p=>`<div class="pcard">
+        ${p.image?`<img src="${esc(p.image)}" alt="">`:`<div class="ph">🛍️</div>`}
+        <b>${esc(p.name)}</b>
+        <div>${money(p.price)} ${p.old?`<s style="color:#9ca3af">${money(p.old)}</s>`:""}</div>
+        <div>${p.category?`<span class="tag">${esc(p.category)}</span>`:""} <span class="tag ${p.available===false?"off":""}">${p.available===false?"مخفي":"متاح"}</span></div>
+        <div class="acts"><button class="btn small" data-pe="${esc(p.id)}">تعديل</button><button class="btn danger small" data-pd="${esc(p.id)}">حذف</button></div>
+      </div>`).join("") || `<div class="empty" style="grid-column:1/-1">لا توجد منتجات، أضف أول منتج من النموذج بالأعلى</div>`;
+      $("plist").querySelectorAll("[data-pe]").forEach(b=>b.onclick=()=>editProduct(b.dataset.pe));
+      $("plist").querySelectorAll("[data-pd]").forEach(b=>b.onclick=async()=>{
+        if(!confirm("حذف المنتج نهائياً؟")) return;
+        try{ await deleteDoc(doc(db,"products",b.dataset.pd)); toast("تم حذف المنتج"); }catch{ toast("فشل الحذف"); }
+      });
+    }
+    $("pSearch").oninput = renderProducts;
+
+    function shrink(file, max=480){
+      return new Promise((res,rej)=>{
+        const img = new Image(), url = URL.createObjectURL(file);
+        img.onload = ()=>{
+          const r = Math.min(1, max/Math.max(img.width,img.height));
+          const c = document.createElement("canvas");
+          c.width = Math.round(img.width*r); c.height = Math.round(img.height*r);
+          c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+          URL.revokeObjectURL(url);
+          res(c.toDataURL("image/jpeg",0.82));
+        };
+        img.onerror = rej; img.src = url;
+      });
+    }
+    $("pFile").onchange = async e=>{
+      const f = e.target.files[0]; if(!f) return;
+      try{ imageData = await shrink(f); $("pPrev").src = imageData; $("pPrev").classList.remove("hidden"); }
+      catch{ toast("تعذر قراءة الصورة"); }
+    };
+
+    function resetForm(){
+      editingId=null; imageData=null;
+      $("pForm").reset(); $("pPrev").classList.add("hidden"); $("pPrev").removeAttribute("src");
+      $("formTitle").textContent="إضافة منتج"; $("pCancel").classList.add("hidden");
+    }
+    function editProduct(id){
+      const p = products.find(x=>x.id===id); if(!p) return;
+      editingId=id; imageData=p.image||null;
+      $("pName").value=p.name||""; $("pPrice").value=p.price??""; $("pOld").value=p.old??"";
+      $("pCat").value=p.category||""; $("pAvail").value=p.available===false?"0":"1";
+      if(p.image){ $("pPrev").src=p.image; $("pPrev").classList.remove("hidden"); } else $("pPrev").classList.add("hidden");
+      $("formTitle").textContent="تعديل المنتج"; $("pCancel").classList.remove("hidden");
+      $("pForm").scrollIntoView({behavior:"smooth",block:"center"});
+    }
+    $("pCancel").onclick = resetForm;
+
+    async function saveProduct(keepOpen = false) {
+      const data = {
+        name: $("pName").value.trim(),
+        price: +$("pPrice").value,
+        old: $("pOld").value ? +$("pOld").value : null,
+        category: $("pCat").value.trim(),
+        available: $("pAvail").value==="1",
+        image: imageData || "",
+        updatedAt: serverTimestamp()
+      };
+      if (!data.name || isNaN(data.price)) {
+        toast("يرجى إدخال اسم المنتج والسعر");
+        return;
+      }
+      $("pSave").disabled = true;
+      $("pSaveAdd").disabled = true;
+      
+      await ensureAnonymousAuth();
+      
+      try{
+        if(editingId) await setDoc(doc(db,"products",editingId), data, {merge:true});
+        else await addDoc(collection(db,"products"), {...data, createdAt: serverTimestamp()});
+        toast(editingId?"تم تحديث المنتج ✔":"تمت إضافة المنتج ✔");
+        resetForm();
+        if (keepOpen) {
+          $("pName").focus();
+        }
+      }catch(err){ console.error(err); toast("فشل الحفظ - تأكد من صلاحيات Firestore"); }
+      $("pSave").disabled = false;
+      $("pSaveAdd").disabled = false;
+    }
+
+    $("pForm").addEventListener("submit", async e=>{
+      e.preventDefault();
+      await saveProduct(false);
+    });
+
+    $("pSaveAdd").addEventListener("click", async () => {
+      await saveProduct(true);
+    });
   }
-
-  $("pForm").addEventListener("submit", async e=>{
-    e.preventDefault();
-    await saveProduct(false);
-  });
-
-  $("pSaveAdd").addEventListener("click", async () => {
-    await saveProduct(true);
-  });
-}
 
   initShop();
   initAdmin();
 
-  /* ================= التنقل بين المتجر واللوحة (#admin) ================= */
   function route(){
     const isAdmin = location.hash.startsWith("#admin");
     if (isAdmin && !isCurrentUserAdmin) {
-      // إذا حاول مستخدم عادي الدخول للوحة
       document.getElementById("shop").classList.remove("hidden");
       document.getElementById("admin").classList.add("hidden");
       location.hash = "";
@@ -754,7 +748,6 @@
   window.addEventListener("hashchange", route);
   route();
 
-  /* ================= PWA: زر التثبيت ================= */
   let deferredPrompt = null;
   const installBtn = document.getElementById("installBtn");
   window.addEventListener("beforeinstallprompt", (e) => {
@@ -776,7 +769,6 @@
     installBtn.classList.remove("show");
   });
 
-  /* ================= PWA: Service Worker مدمج (offline) ================= */
   if ("serviceWorker" in navigator) {
     const swCode = `
       const CACHE = 'baraka-v1';
@@ -806,7 +798,6 @@
     navigator.serviceWorker.register(swUrl).catch(() => {});
   }
 
-  /* ================= إشعار offline ================= */
   const offlineBanner = document.getElementById("offlineBanner");
   window.addEventListener("offline", () => offlineBanner.classList.add("show"));
   window.addEventListener("online", () => offlineBanner.classList.remove("show"));
@@ -814,4 +805,4 @@
 
 </script>
 </body>
-  </html>
+                        </html>
