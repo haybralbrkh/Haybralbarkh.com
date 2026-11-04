@@ -7,8 +7,8 @@
 <meta name="description" content="هايبر البركة - تسوق مستلزماتك اليومية بأفضل الأسعار واطلب أونلاين.">
 <meta name="theme-color" content="#1fa045">
 
-<!-- ===== PWA ===== -->
-<link rel="manifest" href='data:application/manifest+json,{"name":"هايبر البركة","short_name":"البركة","start_url":"./","display":"standalone","background_color":"%23f6f8f5","theme_color":"%231fa045","lang":"ar","dir":"rtl","icons":[{"src":"https://via.placeholder.com/192x192/1fa045/ffffff?text=%D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"https://via.placeholder.com/512x512/1fa045/ffffff?text=%D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
+<!-- ===== PWA Manifest with Real SVG Icon ===== -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"هايبر البركة","short_name":"البركة","start_url":"./","display":"standalone","background_color":"%23f6f8f5","theme_color":"%231fa045","lang":"ar","dir":"rtl","icons":[{"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231fa045%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2230%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22%3Eالبركة%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"},{"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231fa045%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2230%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22%3Eالبركة%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="هايبر البركة">
@@ -72,12 +72,11 @@
   footer{background:#12331c;color:#d1fae5;text-align:center;padding:28px 16px;margin-top:30px}
   .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 22px;border-radius:999px;z-index:200;display:none}
 
-  /* ===== لوحة التحكم (محصورة داخل #admin) ===== */
+  /* ===== لوحة التحكم ===== */
   .hidden{display:none!important}
   #admin{--green:#1fa045;--green-dark:#12702d;--orange:#f5a800;--bg:#f3f6f3;--card:#fff;--text:#1f2937;--muted:#6b7280;--red:#dc2626}
   #admin{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
   #admin button{font:inherit;cursor:pointer}
-  .hidden{display:none!important}
   #admin /* login */
   .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
   #admin .login form{background:#fff;border-radius:18px;padding:28px;width:min(380px,100%);box-shadow:0 10px 30px rgba(0,0,0,.12);display:grid;gap:12px;text-align:center}
@@ -90,6 +89,8 @@
   #admin .btn.danger{background:var(--red)}
   #admin .btn.small{padding:5px 12px;font-size:.85rem}
   #admin .err{color:var(--red);font-size:.9rem;min-height:1.2em}
+  #admin .google-btn{background:#fff;color:#374151;border:1px solid #d1d5db;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
+  #admin .google-btn:hover{background:#f3f4f6}
   #admin /* layout */
   header{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top)}
   #admin .top{max-width:1100px;margin:auto;padding:8px 16px;display:flex;align-items:center;gap:12px}
@@ -207,7 +208,8 @@
     <input id="email" type="email" placeholder="البريد الإلكتروني" required autocomplete="username">
     <input id="password" type="password" placeholder="كلمة المرور" required autocomplete="current-password">
     <div class="err" id="loginErr"></div>
-    <button class="btn" type="submit">دخول</button>
+    <button class="btn" type="submit">دخول بالبريد</button>
+    <button class="btn google-btn" type="button" id="googleLogin">الدخول باستخدام Google</button>
   </form>
 </div>
 
@@ -271,6 +273,7 @@
           <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
             <img class="preview hidden" id="pPrev" alt="">
             <button class="btn" id="pSave" type="submit">حفظ المنتج</button>
+            <button class="btn alt" id="pSaveAdd" type="button">حفظ وإضافة منتج آخر</button>
             <button class="btn alt hidden" id="pCancel" type="button">إلغاء التعديل</button>
           </div>
         </form>
@@ -292,7 +295,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
   import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -305,10 +308,14 @@
     measurementId: "G-Y59JYC9HBX"
   };
 
+  // البريد الإلكتروني الوحيد المسموح له بالدخول للوحة التحكم
+  const ALLOWED_ADMIN_EMAIL = "youssefttv6@gmail.com";
+
   const app = initializeApp(firebaseConfig);
   try { getAnalytics(app); } catch (e) { console.warn("Analytics غير متاح", e); }
   const db = getFirestore(app);
   const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
 
   /* ================= واجهة المتجر ================= */
   function initShop(){
@@ -424,13 +431,37 @@
   /* ---------- الدخول ---------- */
   $("loginForm").addEventListener("submit", async e=>{
     e.preventDefault(); $("loginErr").textContent="";
-    try{ await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value); }
+    try{ 
+      await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value); 
+    }
     catch(err){ $("loginErr").textContent="البريد أو كلمة المرور غير صحيحة"; }
   });
+
+  // تسجيل الدخول بجوجل
+  $("googleLogin").addEventListener("click", async () => {
+    $("loginErr").textContent="";
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.error(err);
+      $("loginErr").textContent = "فشل الدخول بجوجل. تأكد من تفعيل Google Sign-In في Firebase.";
+    }
+  });
+
   $("logout").onclick = () => signOut(auth);
 
   onAuthStateChanged(auth, user=>{
     unsubs.forEach(u=>u()); unsubs=[];
+    
+    // التحقق من البريد المسموح به
+    if (user && user.email !== ALLOWED_ADMIN_EMAIL) {
+      signOut(auth);
+      $("loginErr").textContent = "عذراً، هذا الحساب غير مصرح له بالدخول للوحة التحكم.";
+      $("loginView").classList.remove("hidden");
+      $("appView").classList.add("hidden");
+      return;
+    }
+
     $("loginView").classList.toggle("hidden",!!user);
     $("appView").classList.toggle("hidden",!user);
     if(!user) return;
@@ -553,9 +584,8 @@
   }
   $("pCancel").onclick = resetForm;
 
-  $("pForm").addEventListener("submit", async e=>{
-    e.preventDefault();
-    $("pSave").disabled = true;
+  // دالة حفظ المنتج الأساسية
+  async function saveProduct(keepOpen = false) {
     const data = {
       name: $("pName").value.trim(),
       price: +$("pPrice").value,
@@ -565,13 +595,33 @@
       image: imageData || "",
       updatedAt: serverTimestamp()
     };
+    if (!data.name || isNaN(data.price)) {
+      toast("يرجى إدخال اسم المنتج والسعر");
+      return;
+    }
+    $("pSave").disabled = true;
+    $("pSaveAdd").disabled = true;
     try{
       if(editingId) await setDoc(doc(db,"products",editingId), data, {merge:true});
       else await addDoc(collection(db,"products"), {...data, createdAt: serverTimestamp()});
       toast(editingId?"تم تحديث المنتج ✔":"تمت إضافة المنتج ✔");
       resetForm();
+      if (keepOpen) {
+        // التركيز على حقل اسم المنتج لإضافة منتج آخر
+        $("pName").focus();
+      }
     }catch(err){ console.error(err); toast("فشل الحفظ - تأكد من صلاحيات Firestore"); }
     $("pSave").disabled = false;
+    $("pSaveAdd").disabled = false;
+  }
+
+  $("pForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    await saveProduct(false);
+  });
+
+  $("pSaveAdd").addEventListener("click", async () => {
+    await saveProduct(true);
   });
 }
 
@@ -649,4 +699,4 @@
 
 </script>
 </body>
-                              </html>
+                                                 </html>
