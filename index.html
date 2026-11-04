@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>هايبر البركة | أفضل الأسعار وأجود المنتجات</title>
+<meta name="description" content="هايبر البركة - تسوق مستلزماتك اليومية بأفضل الأسعار واطلب أونلاين.">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1b7f3b; --green-dark:#12592a; --orange:#f59e0b; --bg:#f6f8f5; --card:#fff; --text:#1f2937; --muted:#6b7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  header{background:var(--green);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  .nav{max-width:1200px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:16px}
+  .logo{font-size:1.5rem;font-weight:800;white-space:nowrap}
+  .logo span{color:var(--orange)}
+  .search{flex:1}
+  .search input{width:100%;padding:10px 16px;border-radius:999px;border:none;font:inherit;outline:none}
+  .cart-btn{background:var(--orange);color:#1f2937;border:none;border-radius:999px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer;white-space:nowrap}
+  .hero{background:linear-gradient(135deg,var(--green-dark),var(--green) 60%,#3aa65a);color:#fff;text-align:center;padding:56px 16px}
+  .hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800}
+  .hero p{margin:10px 0 22px;font-size:1.1rem;opacity:.95}
+  .hero a{background:var(--orange);color:#1f2937;padding:12px 28px;border-radius:999px;text-decoration:none;font-weight:800}
+  .features{max-width:1200px;margin:-28px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;position:relative}
+  .feature{background:var(--card);border-radius:14px;padding:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .feature b{display:block;font-size:1.8rem}
+  main{max-width:1200px;margin:auto;padding:36px 16px}
+  h2{font-size:1.5rem;margin-bottom:14px;color:var(--green-dark)}
+  .cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .cat{background:#fff;border:2px solid #e5e7eb;border-radius:999px;padding:6px 16px;font:inherit;cursor:pointer}
+  .cat.active{background:var(--green);border-color:var(--green);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+  .card{background:var(--card);border-radius:14px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:6px;transition:.2s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+  .emoji{font-size:3.2rem}
+  .card .price{color:var(--green);font-weight:800;font-size:1.15rem}
+  .card .old{color:var(--muted);text-decoration:line-through;font-size:.9rem;margin-inline-start:6px}
+  .add{margin-top:auto;background:var(--green);color:#fff;border:none;border-radius:10px;padding:9px;font:inherit;font-weight:700;cursor:pointer}
+  .add:hover{background:var(--green-dark)}
+  .empty{text-align:center;color:var(--muted);padding:30px}
+  /* drawer */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:90}
+  .overlay.show{display:block}
+  .drawer{position:fixed;top:0;bottom:0;left:0;width:min(420px,100%);background:#fff;z-index:100;transform:translateX(-100%);transition:.3s;display:flex;flex-direction:column}
+  .drawer.show{transform:none}
+  .drawer-head{padding:16px;background:var(--green);color:#fff;display:flex;justify-content:space-between;align-items:center}
+  .drawer-head button{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+  .items{flex:1;overflow:auto;padding:12px 16px}
+  .item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
+  .item .nm{flex:1}
+  .qty{display:flex;align-items:center;gap:6px}
+  .qty button{width:28px;height:28px;border-radius:50%;border:1px solid #d1d5db;background:#fff;cursor:pointer;font-size:1rem}
+  .checkout{padding:16px;border-top:1px solid #eee;display:grid;gap:8px}
+  .checkout input,.checkout textarea{padding:10px;border:1px solid #d1d5db;border-radius:10px;font:inherit}
+  .total{display:flex;justify-content:space-between;font-weight:800;font-size:1.1rem}
+  .send{background:var(--orange);border:none;border-radius:10px;padding:12px;font:inherit;font-weight:800;cursor:pointer}
+  .send:disabled{opacity:.6}
+  footer{background:#12331c;color:#d1fae5;text-align:center;padding:28px 16px;margin-top:30px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 22px;border-radius:999px;z-index:200;display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">🛒 هايبر <span>البركة</span></div>
+    <div class="search"><input id="search" type="search" placeholder="ابحث عن منتج..."></div>
+    <button class="cart-btn" id="openCart">السلة (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>هايبر البركة</h1>
+  <p>كل احتياجات بيتك في مكان واحد بأفضل الأسعار</p>
+  <a href="#products">تسوق الآن</a>
+</section>
+
+<section class="features">
+  <div class="feature"><b>🚚</b>توصيل سريع</div>
+  <div class="feature"><b>💰</b>أسعار منافسة</div>
+  <div class="feature"><b>🥬</b>منتجات طازجة</div>
+  <div class="feature"><b>✅</b>جودة مضمونة</div>
+</section>
+
+<main id="products">
+  <h2>منتجاتنا</h2>
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <p>© <span id="year"></span> هايبر البركة - جميع الحقوق محفوظة</p>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head"><b>سلة المشتريات</b><button id="closeCart">✕</button></div>
+  <div class="items" id="items"></div>
+  <form class="checkout" id="orderForm">
+    <div class="total"><span>الإجمالي</span><span id="total">0 ج.م</span></div>
+    <input id="cName" placeholder="الاسم" required>
+    <input id="cPhone" type="tel" placeholder="رقم الموبايل" required>
+    <textarea id="cAddr" rows="2" placeholder="العنوان بالتفصيل" required></textarea>
+    <button class="send" id="sendBtn" type="submit">إرسال الطلب</button>
+  </form>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
+  import { getFirestore, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCAGNcDQnU93Yf85NpwijgIKJEJZMoyZUM",
+    authDomain: "haybar-f088e.firebaseapp.com",
+    projectId: "haybar-f088e",
+    storageBucket: "haybar-f088e.firebasestorage.app",
+    messagingSenderId: "848725586091",
+    appId: "1:848725586091:web:1377d3167540062c7d87ee",
+    measurementId: "G-Y59JYC9HBX"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  try { getAnalytics(app); } catch (e) { console.warn("Analytics غير متاح", e); }
+  const db = getFirestore(app);
+
+  // منتجات افتراضية تظهر لو مفيش منتجات في Firestore (collection اسمها: products)
+  const sample = [
+    {id:"s1",name:"أرز مصري 1 كجم",price:32,old:36,category:"بقالة",emoji:"🍚"},
+    {id:"s2",name:"سكر 1 كجم",price:30,category:"بقالة",emoji:"🧂"},
+    {id:"s3",name:"زيت عباد الشمس 800 مل",price:75,old:82,category:"بقالة",emoji:"🛢️"},
+    {id:"s4",name:"مكرونة 400 جم",price:12,category:"بقالة",emoji:"🍝"},
+    {id:"s5",name:"لبن كامل الدسم 1 لتر",price:42,category:"ألبان",emoji:"🥛"},
+    {id:"s6",name:"جبنة بيضاء 500 جم",price:60,category:"ألبان",emoji:"🧀"},
+    {id:"s7",name:"بيض (30 بيضة)",price:140,category:"ألبان",emoji:"🥚"},
+    {id:"s8",name:"طماطم 1 كجم",price:20,category:"خضار وفاكهة",emoji:"🍅"},
+    {id:"s9",name:"موز 1 كجم",price:35,category:"خضار وفاكهة",emoji:"🍌"},
+    {id:"s10",name:"تفاح 1 كجم",price:55,category:"خضار وفاكهة",emoji:"🍎"},
+    {id:"s11",name:"فراخ طازجة 1 كجم",price:95,category:"لحوم",emoji:"🍗"},
+    {id:"s12",name:"عصير برتقال 1 لتر",price:28,category:"مشروبات",emoji:"🧃"},
+    {id:"s13",name:"مياه معدنية 1.5 لتر",price:7,category:"مشروبات",emoji:"💧"},
+    {id:"s14",name:"مسحوق غسيل 2 كجم",price:110,category:"منظفات",emoji:"🧼"}
+  ];
+
+  let products = [], cart = {}, activeCat = "الكل", q = "";
+  const $ = id => document.getElementById(id);
+  const money = n => n.toLocaleString("ar-EG") + " ج.م";
+  const toast = msg => { const t=$("toast"); t.textContent=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2500); };
+
+  try { cart = JSON.parse(localStorage.getItem("baraka_cart")||"{}"); } catch { cart = {}; }
+  const saveCart = () => { try{localStorage.setItem("baraka_cart",JSON.stringify(cart));}catch{} };
+
+  async function loadProducts(){
+    try{
+      const snap = await getDocs(collection(db,"products"));
+      products = snap.docs.map(d=>({id:d.id,...d.data()}));
+    }catch(e){ console.warn("تعذر تحميل المنتجات من Firestore", e); }
+    if(!products.length) products = sample;
+    renderCats(); renderProducts(); renderCart();
+  }
+
+  function renderCats(){
+    const cats = ["الكل", ...new Set(products.map(p=>p.category).filter(Boolean))];
+    $("cats").innerHTML = cats.map(c=>`<button class="cat ${c===activeCat?"active":""}" data-c="${c}">${c}</button>`).join("");
+  }
+
+  function renderProducts(){
+    const list = products.filter(p => (activeCat==="الكل"||p.category===activeCat) && (p.name||"").includes(q));
+    $("grid").innerHTML = list.length ? list.map(p=>`
+      <div class="card">
+        <div class="emoji">${p.image?`<img src="${p.image}" alt="" style="width:100%;height:120px;object-fit:contain">`:(p.emoji||"🛍️")}</div>
+        <div>${p.name}</div>
+        <div><span class="price">${money(+p.price)}</span>${p.old?`<span class="old">${money(+p.old)}</span>`:""}</div>
+        <button class="add" data-id="${p.id}">أضف للسلة</button>
+      </div>`).join("") : `<div class="empty">لا توجد منتجات مطابقة</div>`;
+  }
+
+  function renderCart(){
+    const ids = Object.keys(cart);
+    let total=0, count=0;
+    $("items").innerHTML = ids.length ? ids.map(id=>{
+      const i=cart[id]; total+=i.price*i.qty; count+=i.qty;
+      return `<div class="item"><div class="nm">${i.name}<br><small>${money(i.price)}</small></div>
+        <div class="qty"><button data-a="minus" data-id="${id}">−</button><b>${i.qty}</b><button data-a="plus" data-id="${id}">+</button></div></div>`;
+    }).join("") : `<div class="empty">السلة فاضية</div>`;
+    $("total").textContent = money(total);
+    $("cartCount").textContent = count;
+    $("sendBtn").disabled = !ids.length;
+    saveCart();
+  }
+
+  const openCart = o => { $("drawer").classList.toggle("show",o); $("overlay").classList.toggle("show",o); };
+
+  $("cats").addEventListener("click",e=>{ const c=e.target.dataset.c; if(!c)return; activeCat=c; renderCats(); renderProducts(); });
+  $("search").addEventListener("input",e=>{ q=e.target.value.trim(); renderProducts(); });
+  $("grid").addEventListener("click",e=>{
+    const id=e.target.dataset.id; if(!id)return;
+    const p=products.find(x=>x.id===id); if(!p)return;
+    cart[id]=cart[id]||{name:p.name,price:+p.price,qty:0}; cart[id].qty++;
+    renderCart(); toast("تمت الإضافة للسلة ✔");
+  });
+  $("items").addEventListener("click",e=>{
+    const {a,id}=e.target.dataset; if(!a)return;
+    cart[id].qty += a==="plus"?1:-1;
+    if(cart[id].qty<=0) delete cart[id];
+    renderCart();
+  });
+  $("openCart").onclick=()=>openCart(true);
+  $("closeCart").onclick=$("overlay").onclick=()=>openCart(false);
+
+  $("orderForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const items = Object.values(cart);
+    if(!items.length) return;
+    $("sendBtn").disabled = true;
+    try{
+      await addDoc(collection(db,"orders"),{
+        name:$("cName").value.trim(),
+        phone:$("cPhone").value.trim(),
+        address:$("cAddr").value.trim(),
+        items,
+        total:items.reduce((s,i)=>s+i.price*i.qty,0),
+        status:"new",
+        createdAt:serverTimestamp()
+      });
+      cart={}; renderCart(); e.target.reset(); openCart(false);
+      toast("تم إرسال طلبك بنجاح، هنتواصل معاك قريب 🌟");
+    }catch(err){
+      console.error(err);
+      toast("حصل خطأ في إرسال الطلب، حاول تاني");
+      $("sendBtn").disabled = false;
+    }
+  });
+
+  $("year").textContent = new Date().getFullYear();
+  loadProducts();
+</script>
+</body>
+</html>
