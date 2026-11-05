@@ -137,6 +137,9 @@ textarea.inp{resize:vertical}
 .authlogo{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:14px;text-align:center}
 .authlogo img{width:84px;height:84px;border-radius:22px;box-shadow:var(--sh)}
 .authlogo p{color:var(--mu);font-size:.88rem}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#eef3ef;border-radius:14px;padding:4px;margin-bottom:16px}
+.seg button{padding:9px;border-radius:11px;font-weight:700;color:var(--mu);transition:.2s}
+.seg button.on{background:#fff;color:var(--g2);box-shadow:0 2px 8px rgba(0,0,0,.1)}
 
 /* cart items */
 .item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
@@ -151,16 +154,9 @@ textarea.inp{resize:vertical}
 .total{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin-bottom:10px}
 .total span:last-child{color:var(--g2)}
 
-/* notifications / orders lists */
-.nt{display:flex;gap:12px;padding:12px;border-radius:14px;background:#f7faf8;margin-bottom:8px;border:1px solid transparent}
-.nt.un{background:#fff9e8;border-color:#fde7a6}
-.nt .em{width:40px;height:40px;border-radius:12px;background:var(--gl);color:var(--g2);display:grid;place-items:center;flex:none;font-size:1.2rem}
-.nt b{display:block;font-size:.93rem}.nt p{font-size:.85rem;color:#44554b}.nt small{color:var(--mu);font-size:.75rem}
 .menu-item{width:100%;display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;background:#f4f8f5;margin-bottom:8px;font-weight:700;text-align:start}
 .menu-item:hover{background:var(--gl)}
 .menu-item.red{color:var(--red);background:#fef2f2}
-.who{display:flex;gap:12px;align-items:center;margin-bottom:14px;padding:12px;background:var(--gl);border-radius:16px}
-.who .av{width:48px;height:48px;border-radius:50%;background:var(--g1);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.2rem}
 
 /* toast & offline */
 .toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,30px);background:#14231b;color:#fff;padding:12px 22px;border-radius:999px;z-index:3000;opacity:0;pointer-events:none;transition:.3s;max-width:92vw;text-align:center;font-weight:600;box-shadow:var(--sh2)}
@@ -208,10 +204,8 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
         <div class="hello"><small id="helloSmall">أهلاً بك في</small><b id="helloName">هايبر البركة</b></div>
       </a>
       <div class="actions">
-        <button class="pill o" id="installBtn" style="display:none;">تثبيت</button>
         <button class="pill g" id="loginBtn">دخول</button>
         <button class="pill g" id="adminBtn" style="display:none;">لوحة التحكم</button>
-        <button class="ib" id="bellBtn" style="display:none;">🔔</button>
         <button class="ib" id="userBtn" style="display:none;">👤</button>
         <button class="ib cart" id="cartBtn">🛒<span class="dot" id="cartCount">0</span></button>
       </div>
@@ -243,7 +237,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
     </div>
     <div class="tabs">
       <button class="tab on" data-t="dash">الرئيسية</button>
-      <button class="tab" data-t="orders">الطلبات <span class="bg" id="newBadge" hidden>0</span></button>
+      <button class="tab" data-t="orders">الطلبات</button>
       <button class="tab" data-t="products">المنتجات</button>
     </div>
   </header>
@@ -251,7 +245,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
     <section id="t-dash">
       <div class="stats">
         <div class="stat"><small>عدد المنتجات</small><b id="sProducts">0</b></div>
-        <div class="stat"><small>طلبات جديدة</small><b id="sNew">0</b></div>
       </div>
     </section>
 
@@ -265,7 +258,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
         <form class="form" id="pForm">
           <div class="fld"><label>اسم المنتج *</label><input class="inp" id="pName" required></div>
           <div class="fld"><label>السعر (ج.م) *</label><input class="inp" id="pPrice" type="number" required></div>
-          <div class="fld"><label>صورة المنتج</label><input type="file" id="pFile" accept="image/*"></div>
           <div class="full" style="display:flex;gap:10px;">
             <button class="btn" id="pSave" type="submit">حفظ المنتج</button>
           </div>
@@ -280,13 +272,15 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 </div>
 
 <!-- ============ النوافذ ============ -->
-<div id="backdrop"></div>
+<div id="backdrop" style="z-index: 9998;"></div>
 
-<div class="sheet center" id="authSheet">
-  <div class="sh-head"><h3>تسجيل الدخول</h3><button class="x" data-close>✕</button></div>
+<div class="sheet center" id="authSheet" style="z-index: 9999;">
+  <div class="sh-head"><h3>حسابي</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body">
-    <div class="authlogo"><img data-logo alt=""><p>سجّل دخولك علشان تقدر تطلب</p></div>
+    <div class="authlogo"><img data-logo alt=""><p>سجّل دخولك أو أنشئ حساباً جديداً</p></div>
+    <div class="seg"><button class="on" data-m="login" type="button">دخول</button><button data-m="signup" type="button">حساب جديد</button></div>
     <form id="authForm">
+      <div class="fld" id="fName" hidden><label>الاسم</label><input class="inp" id="aName" placeholder="اسمك"></div>
       <div class="fld"><label>رقم الموبايل</label><input class="inp" id="aPhone" type="tel" placeholder="01012345678" maxlength="11" required></div>
       <div class="fld"><label>كلمة المرور</label><input class="inp" id="aPass" type="password" required></div>
       <div class="err" id="authErr"></div>
@@ -295,7 +289,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </div>
 </div>
 
-<aside class="sheet drawer" id="cartSheet">
+<aside class="sheet drawer" id="cartSheet" style="z-index: 9999;">
   <div class="sh-head"><h3>🛒 سلة المشتريات</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body" id="items"></div>
   <div class="cart-foot" id="cartFoot">
@@ -310,12 +304,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </div>
 </aside>
 
-<div class="sheet center" id="notifSheet">
-  <div class="sh-head"><h3>🔔 إشعارات الهايبر</h3><button class="x" data-close>✕</button></div>
-  <div class="sh-body" id="notifList"></div>
-</div>
-
-<div class="sheet center" id="menuSheet">
+<div class="sheet center" id="menuSheet" style="z-index: 9999;">
   <div class="sh-head"><h3>حسابي</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body">
     <button class="menu-item red" id="mLogout">تسجيل الخروج</button>
@@ -326,8 +315,8 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, collection, doc, addDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCAGNcDQnU93Yf85NpwijgIKJEJZMoyZUM",
@@ -350,15 +339,21 @@ document.querySelectorAll("img[data-logo]").forEach(el => el.src = LOGO);
 $("year").textContent = new Date().getFullYear();
 
 let user = null, isAdmin = false;
-let products = [], cart = {}, unsubOrders = null;
+let products = [], cart = {};
 try { cart = JSON.parse(localStorage.getItem("baraka_cart") || "{}"); } catch { cart = {}; }
 
-function openSheet(id) { ["authSheet","cartSheet","notifSheet","menuSheet"].forEach(s => $(s).classList.toggle("open", s === id)); $("backdrop").classList.add("on"); }
-function closeSheets() { ["authSheet","cartSheet","notifSheet","menuSheet"].forEach(s => $(s).classList.remove("open")); $("backdrop").classList.remove("on"); }
+function openSheet(id) { 
+  ["authSheet","cartSheet","menuSheet"].forEach(s => $(s).classList.toggle("open", s === id)); 
+  $("backdrop").classList.add("on"); 
+}
+function closeSheets() { 
+  ["authSheet","cartSheet","menuSheet"].forEach(s => $(s).classList.remove("open")); 
+  $("backdrop").classList.remove("on"); 
+}
 $("backdrop").onclick = closeSheets;
 document.querySelectorAll("[data-close]").forEach(b => b.onclick = closeSheets);
 
-// جلب المنتجات وعرضها فوراً (بدون أي فلترة)
+// جلب المنتجات
 onSnapshot(collection(db, "products"), snap => {
   products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   renderProducts();
@@ -412,14 +407,32 @@ $("needLogin").onclick = () => openSheet("authSheet");
 $("loginBtn").onclick = () => openSheet("authSheet");
 $("userBtn").onclick = () => openSheet("menuSheet");
 
+// التبديل بين الدخول وإنشاء حساب
+document.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".seg button").forEach(x => x.classList.toggle("on", x === b));
+  const su = b.dataset.m === "signup";
+  $("fName").hidden = !su; $("aName").required = su;
+  $("authBtn").textContent = su ? "إنشاء حساب" : "دخول";
+});
+
 $("authForm").onsubmit = async e => {
   e.preventDefault();
-  const phone = $("aPhone").value.trim();
   $("authBtn").disabled = true;
+  $("authErr").textContent = "";
+  const phone = $("aPhone").value.trim();
+  const pass = $("aPass").value;
+  
   try {
-    await signInWithEmailAndPassword(auth, phone + "@baraka.app", $("aPass").value);
+    if ($("aName").required) {
+      await createUserWithEmailAndPassword(auth, phone + "@baraka.app", pass);
+      alert("تم إنشاء الحساب بنجاح!");
+    } else {
+      await signInWithEmailAndPassword(auth, phone + "@baraka.app", pass);
+    }
     closeSheets();
-  } catch(err) { $("authErr").textContent = "بيانات خاطئة"; }
+  } catch(err) { 
+    $("authErr").textContent = "تأكد من البيانات (أو أن الحساب موجود بالفعل)"; 
+  }
   $("authBtn").disabled = false;
 };
 
@@ -445,8 +458,6 @@ onAuthStateChanged(auth, u => {
   if(u) {
     $("loginBtn").style.display = "none";
     $("userBtn").style.display = "block";
-    $("bellBtn").style.display = "block";
-    
     if(isAdmin) {
       $("adminBtn").style.display = "inline-flex";
     } else {
@@ -455,7 +466,6 @@ onAuthStateChanged(auth, u => {
   } else {
     $("loginBtn").style.display = "inline-flex";
     $("userBtn").style.display = "none";
-    $("bellBtn").style.display = "none";
     $("adminBtn").style.display = "none";
     $("shop").hidden = false; 
     $("admin").hidden = true;
@@ -491,4 +501,4 @@ onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), s => {
 });
 </script>
 </body>
-</html>
+  </html>
