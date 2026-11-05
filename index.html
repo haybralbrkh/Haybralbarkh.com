@@ -647,7 +647,7 @@ function fillOrderForm() {
 $("orderForm").addEventListener("submit", async e => {
   e.preventDefault();
   if (!user) return openAuth("login");
-  const items = Object.entries(cart).map(([id, i]) => ({ id, name: i.name, price: i.price, qty: i.qty }));
+  const visible = () => products;
   if (!items.length) return;
   const phone = normPhone($("cPhone").value);
   if (!validPhone(phone)) return toast("رقم الموبايل غير صحيح (11 رقم)");
