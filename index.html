@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>هايبر البركة | أفضل الأسعار وأجود المنتجات</title>
-<meta name="description" content="هايبر البركة - تسوق مستلزماتك اليومية بأفضل الأسعار واطلب أونلاين.">
 <meta name="theme-color" content="#16a34a">
 <link rel="manifest" id="mf">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='60' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E">
@@ -28,12 +27,16 @@ button{cursor:pointer;border:none;background:none}
 [hidden]{display:none!important}
 .ico svg,.i svg{width:1.25em;height:1.25em;display:block}
 img{max-width:100%}
+
+/* splash */
 #splash{position:fixed;inset:0;background:linear-gradient(160deg,#fff,#eaf7ef);z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .35s}
 #splash img{width:130px;height:130px;border-radius:30px;box-shadow:var(--sh2);animation:float 1.6s ease-in-out infinite}
 #splash.done{opacity:0;pointer-events:none}
 .spin{width:30px;height:30px;border-radius:50%;border:3px solid #cfe9d8;border-top-color:var(--g1);animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
 @keyframes float{50%{transform:translateY(-6px)}}
+
+/* header */
 .top{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top)}
 .top-in{max-width:1240px;margin:auto;padding:8px 14px;display:flex;align-items:center;gap:10px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;min-width:0;flex:1}
@@ -57,6 +60,8 @@ img{max-width:100%}
 .searchrow input{width:100%;padding:12px 46px 12px 16px;border-radius:16px;border:2px solid transparent;background:#eef3ef;outline:none;transition:.2s}
 .searchrow input:focus{background:#fff;border-color:var(--g1);box-shadow:0 0 0 4px rgba(22,163,74,.12)}
 .searchrow .i{position:absolute;inset-inline-end:28px;top:12px;color:var(--mu)}
+
+/* hero */
 .hero{max-width:1240px;margin:14px auto 0;padding:0 14px}
 .hero-in{background:linear-gradient(135deg,var(--g3),var(--g2) 45%,#22c55e);color:#fff;border-radius:26px;padding:26px 22px;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden;box-shadow:var(--sh2)}
 .hero-in:before,.hero-in:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
@@ -67,45 +72,44 @@ img{max-width:100%}
 .hero p{opacity:.92;margin:4px 0 14px;position:relative}
 .perks{display:flex;gap:8px;flex-wrap:wrap;position:relative}
 .perks span{background:rgba(255,255,255,.16);padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600}
+
+/* categories */
 .catbar{position:sticky;top:calc(116px + env(safe-area-inset-top));z-index:40;background:linear-gradient(var(--bg) 80%,transparent);padding:12px 0 6px}
 .cats{max-width:1240px;margin:auto;padding:0 14px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
 .cat{flex:none;padding:8px 18px;border-radius:999px;background:#fff;border:1.5px solid var(--bd);font-weight:700;font-size:.92rem;color:var(--tx);transition:.2s}
 .cat:hover{border-color:var(--g1)}
 .cat.on{background:var(--g1);border-color:var(--g1);color:#fff;box-shadow:0 4px 14px rgba(22,163,74,.35)}
+
 main{max-width:1240px;margin:auto;padding:6px 14px 100px}
 .sec{margin-top:22px}
 .sec h2{display:flex;align-items:center;gap:10px;font-size:1.2rem;font-weight:800;margin-bottom:12px;color:var(--g3)}
 .sec h2:before{content:"";width:6px;height:22px;border-radius:4px;background:linear-gradient(var(--or),var(--g1))}
-.sec h2 small{background:var(--gl);color:var(--g2);font-size:.75rem;padding:1px 10px;border-radius:999px;font-weight:700}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media(min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media(min-width:1150px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
-.card{background:var(--card);border-radius:var(--r);padding:10px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:6px;position:relative;transition:.25s;border:1px solid transparent;animation:pop .35s both}
+.card{background:var(--card);border-radius:var(--r);padding:10px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:6px;position:relative;transition:.25s;border:1px solid transparent}
 .card:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:#cfe9d8}
-@keyframes pop{from{opacity:0;transform:translateY(8px)}}
 .pic{aspect-ratio:1;border-radius:14px;background:#f1f6f2;display:grid;place-items:center;overflow:hidden;font-size:2.6rem}
 .pic img{width:100%;height:100%;object-fit:contain;padding:6px}
-.badge{position:absolute;top:14px;inset-inline-start:14px;background:var(--red);color:#fff;font-size:.72rem;font-weight:800;padding:1px 9px;border-radius:999px;z-index:1}
 .nm{font-weight:700;font-size:.95rem;line-height:1.35;min-height:2.6em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pr{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .price{color:var(--g2);font-weight:800;font-size:1.1rem}
-.old{color:var(--mu);text-decoration:line-through;font-size:.82rem}
 .add{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--g1);color:#fff;border-radius:12px;padding:9px;font-weight:700;transition:.2s}
 .add:hover{background:var(--g2)}
-.add:active{transform:scale(.96)}
 .stepper{margin-top:auto;display:flex;align-items:center;justify-content:space-between;background:var(--gl);border-radius:12px;padding:3px}
 .stepper button{width:36px;height:34px;border-radius:10px;background:var(--g1);color:#fff;display:grid;place-items:center}
 .stepper button.m{background:#fff;color:var(--g2);box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .stepper b{font-size:1rem}
-.skel{height:230px;border-radius:var(--r);background:linear-gradient(100deg,#e9efeb 30%,#f6faf7 50%,#e9efeb 70%);background-size:200% 100%;animation:sh 1.2s infinite}
-@keyframes sh{to{background-position:-200% 0}}
 .empty{text-align:center;color:var(--mu);padding:46px 12px;grid-column:1/-1}
 .empty b{display:block;font-size:2.8rem}
+
+/* FAB */
 .fab{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom));inset-inline-start:16px;z-index:55;background:var(--g1);color:#fff;border-radius:999px;padding:12px 20px;font-weight:800;display:flex;gap:10px;align-items:center;box-shadow:0 10px 28px rgba(22,163,74,.5);transition:.25s}
 .fab.hide{transform:translateY(120px)}
 .fab span{background:var(--or);color:#222;border-radius:999px;padding:0 9px;font-size:.85rem}
+
+/* sheets */
 #backdrop{position:fixed;inset:0;background:rgba(10,25,16,.5);backdrop-filter:blur(3px);z-index:90;opacity:0;pointer-events:none;transition:.25s}
 #backdrop.on{opacity:1;pointer-events:auto}
 .sheet{position:fixed;z-index:100;background:#fff;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .25s;max-height:92vh}
@@ -138,6 +142,8 @@ textarea.inp{resize:vertical}
 .authlogo{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:14px;text-align:center}
 .authlogo img{width:84px;height:84px;border-radius:22px;box-shadow:var(--sh)}
 .authlogo p{color:var(--mu);font-size:.88rem}
+
+/* cart items */
 .item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
 .item .th{width:56px;height:56px;border-radius:12px;background:#f1f6f2;display:grid;place-items:center;overflow:hidden;flex:none}
 .item .th img{width:100%;height:100%;object-fit:contain}
@@ -149,6 +155,8 @@ textarea.inp{resize:vertical}
 .cart-foot{padding:14px 18px;border-top:1px solid var(--bd);background:#fbfdfc}
 .total{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin-bottom:10px}
 .total span:last-child{color:var(--g2)}
+
+/* notifications / orders lists */
 .nt{display:flex;gap:12px;padding:12px;border-radius:14px;background:#f7faf8;margin-bottom:8px;border:1px solid transparent}
 .nt.un{background:#fff9e8;border-color:#fde7a6}
 .nt .em{width:40px;height:40px;border-radius:12px;background:var(--gl);color:var(--g2);display:grid;place-items:center;flex:none;font-size:1.2rem}
@@ -156,13 +164,15 @@ textarea.inp{resize:vertical}
 .menu-item{width:100%;display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;background:#f4f8f5;margin-bottom:8px;font-weight:700;text-align:start}
 .menu-item:hover{background:var(--gl)}
 .menu-item.red{color:var(--red);background:#fef2f2}
-.who{display:flex;gap:12px;align-items:center;margin-bottom:14px;padding:12px;background:var(--gl);border-radius:16px}
-.who .av{width:48px;height:48px;border-radius:50%;background:var(--g1);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.2rem}
+
+/* toast & offline */
 .toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,30px);background:#14231b;color:#fff;padding:12px 22px;border-radius:999px;z-index:3000;opacity:0;pointer-events:none;transition:.3s;max-width:92vw;text-align:center;font-weight:600;box-shadow:var(--sh2)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .offline{position:fixed;top:0;left:0;right:0;background:var(--red);color:#fff;text-align:center;padding:5px;font-size:.85rem;z-index:3100;transform:translateY(-100%);transition:.3s}
 .offline.on{transform:none}
 footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;margin-top:20px}
+
+/* ===== admin ===== */
 #admin{background:var(--bg);min-height:100vh}
 .a-top{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:50;padding-top:env(safe-area-inset-top)}
 .a-in{max-width:1100px;margin:auto;padding:8px 14px;display:flex;align-items:center;gap:10px}
@@ -181,15 +191,11 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 .panel h2{font-size:1.1rem;margin-bottom:12px;color:var(--g3)}
 .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;align-items:end}
 .form .full{grid-column:1/-1}
-.imgpick{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.preview{width:96px;height:96px;object-fit:contain;border:2px dashed #c9d8cd;border-radius:14px;background:#fafcfb}
 .plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .pcard{border:1px solid var(--bd);border-radius:16px;padding:10px;display:grid;gap:4px;text-align:center;background:#fff}
 .pcard img{height:90px;object-fit:contain;margin:auto}
 .pcard .ph{font-size:2.4rem;height:90px;display:grid;place-items:center}
 .pcard .acts{display:flex;gap:6px;justify-content:center;margin-top:4px}
-.tag{display:inline-block;background:var(--gl);color:var(--g2);border-radius:999px;padding:0 10px;font-size:.78rem;font-weight:700}
-.tag.off{background:#fee2e2;color:var(--red)}
 </style>
 </head>
 <body>
@@ -197,6 +203,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 <div id="splash"><img data-logo alt="هايبر البركة"><div class="spin"></div></div>
 <div class="offline" id="offline">⚠️ أنت غير متصل بالإنترنت</div>
 
+<!-- ============ المتجر ============ -->
 <div id="shop">
   <header class="top">
     <div class="top-in">
@@ -205,14 +212,14 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
         <div class="hello"><small id="helloSmall">أهلاً بك في</small><b id="helloName">هايبر البركة</b></div>
       </a>
       <div class="actions">
-        <button class="pill o" id="installBtn" style="display:none;"><span class="i" data-i="download"></span>تثبيت</button>
+        <button class="pill o" id="installBtn" style="display:none;">تثبيت</button>
         <button class="pill g" id="loginBtn">دخول</button>
-        <button class="ib" id="bellBtn" aria-label="الإشعارات" style="display:none;"><span class="i" data-i="bell"></span><span class="dot" id="bellDot" hidden>0</span></button>
-        <button class="ib" id="userBtn" aria-label="حسابي" style="display:none;"><span class="i" data-i="user"></span></button>
-        <button class="ib cart" id="cartBtn" aria-label="السلة"><span class="i" data-i="cart"></span><span class="dot" id="cartCount">0</span></button>
+        <button class="ib" id="bellBtn" aria-label="الإشعارات" style="display:none;">🔔</button>
+        <button class="ib" id="userBtn" aria-label="حسابي" style="display:none;">👤</button>
+        <button class="ib cart" id="cartBtn" aria-label="السلة">🛒<span class="dot" id="cartCount">0</span></button>
       </div>
     </div>
-    <div class="searchrow"><input id="search" type="search" placeholder="ابحث عن منتج..." autocomplete="off"><span class="i" data-i="search"></span></div>
+    <div class="searchrow"><input id="search" type="search" placeholder="ابحث عن منتج..."></div>
   </header>
 
   <section class="hero"><div class="hero-in">
@@ -220,29 +227,27 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
     <div>
       <h1>كل احتياجات بيتك<br>في مكان واحد</h1>
       <p>أفضل الأسعار وأجود المنتجات وتوصيل لحد باب البيت</p>
-      <div class="perks"><span>🚚 توصيل سريع</span><span>💰 أسعار منافسة</span><span>🥬 منتجات طازجة</span><span>✅ جودة مضمونة</span></div>
     </div>
   </div></section>
 
-  <div class="catbar"><div class="cats" id="cats"></div></div>
   <main id="products"><div id="list"></div></main>
   <footer><p>© <span id="year"></span> هايبر البركة - جميع الحقوق محفوظة</p></footer>
-
-  <button class="fab hide" id="fab"><span class="i" data-i="cart"></span>عرض السلة<span id="fabTotal">0</span></button>
+  <button class="fab hide" id="fab">عرض السلة<span id="fabTotal">0</span></button>
 </div>
 
+<!-- ============ لوحة التحكم ============ -->
 <div id="admin" hidden>
   <header class="a-top">
     <div class="a-in">
       <img data-logo alt="">
       <h1>لوحة تحكم هايبر البركة</h1>
-      <a class="pill l" href="#" id="aShop"><span class="i" data-i="home"></span>المتجر</a>
-      <button class="pill g" id="aLogout"><span class="i" data-i="logout"></span>خروج</button>
+      <a class="pill l" href="#" id="aShop">المتجر</a>
+      <button class="pill g" id="aLogout">خروج</button>
     </div>
     <div class="tabs">
-      <button class="tab on" data-t="dash"><span class="i" data-i="chart"></span>الرئيسية</button>
-      <button class="tab" data-t="orders"><span class="i" data-i="list"></span>الطلبات <span class="bg" id="newBadge" hidden>0</span></button>
-      <button class="tab" data-t="products"><span class="i" data-i="package"></span>المنتجات</button>
+      <button class="tab on" data-t="dash">الرئيسية</button>
+      <button class="tab" data-t="orders">الطلبات <span class="bg" id="newBadge" hidden>0</span></button>
+      <button class="tab" data-t="products">المنتجات</button>
     </div>
   </header>
   <main class="a-main">
@@ -262,15 +267,14 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 
     <section id="t-products" hidden>
       <div class="panel">
-        <h2 id="formTitle">إضافة منتج</h2>
+        <h2>إضافة منتج</h2>
         <form class="form" id="pForm">
           <div class="fld"><label>اسم المنتج *</label><input class="inp" id="pName" required></div>
-          <div class="fld"><label>السعر (ج.م) *</label><input class="inp" id="pPrice" type="number" step="0.01" min="0" required></div>
-          <div class="fld"><label>القسم</label><input class="inp" id="pCat" placeholder="مثال: بقالة"></div>
+          <div class="fld"><label>السعر (ج.م) *</label><input class="inp" id="pPrice" type="number" required></div>
+          <div class="fld"><label>القسم</label><input class="inp" id="pCat"></div>
           <div class="fld"><label>صورة المنتج</label><input type="file" id="pFile" accept="image/*"></div>
-          <div class="full" style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="full" style="display:flex;gap:10px;">
             <button class="btn" id="pSave" type="submit">حفظ المنتج</button>
-            <button class="btn gh" id="pSaveAdd" type="button">حفظ وإضافة منتج آخر</button>
           </div>
         </form>
       </div>
@@ -282,17 +286,18 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </main>
 </div>
 
+<!-- ============ النوافذ ============ -->
 <div id="backdrop"></div>
 
 <div class="sheet center" id="authSheet">
-  <div class="sh-head"><h3 id="authTitle">تسجيل الدخول</h3><button class="x" data-close>✕</button></div>
+  <div class="sh-head"><h3>تسجيل الدخول</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body">
-    <div class="authlogo"><img data-logo alt=""><p id="authSub">سجّل دخولك علشان تقدر تطلب</p></div>
-    <div class="seg"><button class="on" data-m="login" type="button">دخول</button><button data-m="signup" type="button">حساب جديد</button></div>
+    <div class="authlogo"><img data-logo alt=""><p>سجّل دخولك علشان تقدر تطلب</p></div>
+    <div class="seg"><button class="on" data-m="login">دخول</button><button data-m="signup">حساب جديد</button></div>
     <form id="authForm">
       <div class="fld" id="fName" hidden><label>الاسم</label><input class="inp" id="aName" placeholder="اسمك"></div>
-      <div class="fld"><label>رقم الموبايل</label><input class="inp" id="aPhone" type="tel" inputmode="numeric" placeholder="01012345678" maxlength="11" required></div>
-      <div class="fld"><label>كلمة المرور</label><input class="inp" id="aPass" type="password" placeholder="6 أحرف أو أرقام على الأقل" minlength="6" required></div>
+      <div class="fld"><label>رقم الموبايل</label><input class="inp" id="aPhone" type="tel" placeholder="01012345678" maxlength="11" required></div>
+      <div class="fld"><label>كلمة المرور</label><input class="inp" id="aPass" type="password" minlength="6" required></div>
       <div class="err" id="authErr"></div>
       <button class="btn full" id="authBtn" type="submit">دخول</button>
     </form>
@@ -347,7 +352,6 @@ const ADMIN_PHONE = "01123543649";
 const EMAIL_DOMAIN = "@baraka.app";
 const ADMIN_EMAIL = ADMIN_PHONE + EMAIL_DOMAIN;
 
-// شعار هايبر البركة
 const LOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='60' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E";
 
 const app = initializeApp(firebaseConfig);
@@ -355,11 +359,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const $ = id => document.getElementById(id);
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money = n => Number(n || 0).toLocaleString("en-US") + " ج.م";
 const normPhone = s => String(s || "").replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/\D/g, "");
 const validPhone = p => /^01[0125]\d{8}$/.test(p);
-const ms = ts => ts?.toMillis ? ts.toMillis() : (ts ? +ts : Date.now());
 
 let toastT;
 const toast = m => { const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 2600); };
@@ -372,8 +374,8 @@ let products = [], cart = {}, myOrders = [], unsubOrders = null;
 try { cart = JSON.parse(localStorage.getItem("baraka_cart") || "{}"); } catch { cart = {}; }
 
 const sheets = ["authSheet", "cartSheet", "notifSheet", "menuSheet"];
-function openSheet(id) { sheets.forEach(s => $(s).classList.toggle("open", s === id)); $("backdrop").classList.add("on"); document.body.style.overflow = "hidden"; }
-function closeSheets() { sheets.forEach(s => $(s).classList.remove("open")); $("backdrop").classList.remove("on"); document.body.style.overflow = ""; }
+function openSheet(id) { sheets.forEach(s => $(s).classList.toggle("open", s === id)); $("backdrop").classList.add("on"); }
+function closeSheets() { sheets.forEach(s => $(s).classList.remove("open")); $("backdrop").classList.remove("on"); }
 $("backdrop").onclick = closeSheets;
 document.querySelectorAll("[data-close]").forEach(b => b.onclick = closeSheets);
 
@@ -386,40 +388,38 @@ function renderProducts() {
   const box = $("list");
   if (!products.length) { box.innerHTML = `<div class="empty"><b>🛒</b>الهايبر قيد التجهيز، ترقبوا منتجاتنا قريباً</div>`; return; }
   
-  box.innerHTML = `<section class="sec"><div class="grid">
+  box.innerHTML = `<div class="grid">
     ${products.map(p => {
       const inCart = cart[p.id]?.qty || 0;
       return `<div class="card">
-        <div class="pic">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}">` : "🛍️"}</div>
-        <div class="nm">${esc(p.name)}</div>
+        <div class="pic">${p.image ? `<img src="${p.image}">` : "🛍️"}</div>
+        <div class="nm">${p.name}</div>
         <div class="pr"><span class="price">${money(p.price)}</span></div>
         ${inCart 
-          ? `<div class="stepper"><button data-a="plus" data-id="${esc(p.id)}">+</button><b>${inCart}</b><button data-a="minus" data-id="${esc(p.id)}">-</button></div>`
-          : `<button class="add" data-a="plus" data-id="${esc(p.id)}">أضف للسلة</button>`}
+          ? `<div class="stepper"><button data-a="plus" data-id="${p.id}">+</button><b>${inCart}</b><button data-a="minus" data-id="${p.id}">-</button></div>`
+          : `<button class="add" data-a="plus" data-id="${p.id}">أضف للسلة</button>`}
       </div>`;
     }).join("")}
-  </div></section>`;
+  </div>`;
 }
-
-function saveCart() { try { localStorage.setItem("baraka_cart", JSON.stringify(cart)); } catch {} }
 
 function renderCart() {
   const ids = Object.keys(cart);
   let total = 0, count = 0;
   $("items").innerHTML = ids.length ? ids.map(id => {
     const i = cart[id]; total += i.price * i.qty; count += i.qty;
-    return `<div class="item"><div class="in"><b>${esc(i.name)}</b><small>${money(i.price)} × ${i.qty}</small></div>
-      <div class="qty"><button data-a="minus" data-id="${esc(id)}">-</button><b>${i.qty}</b><button data-a="plus" data-id="${esc(id)}">+</button></div></div>`;
+    return `<div class="item"><div class="in"><b>${i.name}</b><small>${money(i.price)} × ${i.qty}</small></div>
+      <div class="qty"><button data-a="minus" data-id="${id}">-</button><b>${i.qty}</b><button data-a="plus" data-id="${id}">+</button></div></div>`;
   }).join("") : `<div class="empty"><b>🛒</b>السلة فاضية</div>`;
   
   $("total").textContent = money(total);
-  $("cartCount").textContent = count; $("cartCount").hidden = !count;
+  $("cartCount").textContent = count;
   $("fabTotal").textContent = money(total);
   $("fab").classList.toggle("hide", !count);
   $("cartFoot").hidden = !ids.length;
   $("orderForm").hidden = !user || !ids.length;
   $("needLogin").hidden = !!user || !ids.length;
-  saveCart();
+  localStorage.setItem("baraka_cart", JSON.stringify(cart));
 }
 
 function changeQty(id, d) {
@@ -438,12 +438,12 @@ $("items").addEventListener("click", e => { const b = e.target.closest("[data-a]
 
 $("cartBtn").onclick = $("fab").onclick = () => openSheet("cartSheet");
 $("needLogin").onclick = () => openSheet("authSheet");
-$("loginBtn").onclick = () => openSheet("authSheet"); // تم إصلاح الزر هنا
+$("loginBtn").onclick = () => openSheet("authSheet");
 
 $("bellBtn").onclick = () => {
   let html = myOrders.map(o => {
     let txt = o.status === 'new' ? 'تم استلام طلبك وجاري مراجعته' : (o.status === 'preparing' ? 'جاري تجهيز طلبك' : 'تم تسليم طلبك');
-    return `<div class="nt ${o.status==='new'?'un':''}"><div class="em">🛍️</div><div><b>طلب #${esc(o.id.slice(-5))}</b><p>${txt}</p><small>${money(o.total)}</small></div></div>`;
+    return `<div class="nt"><div class="em">🛍️</div><div><b>طلب جديد</b><p>${txt}</p><small>${money(o.total)}</small></div></div>`;
   }).join("");
   $("notifList").innerHTML = html || `<div class="empty">لا توجد إشعارات حالياً</div>`;
   openSheet("notifSheet");
@@ -471,7 +471,6 @@ document.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
   document.querySelectorAll(".seg button").forEach(x => x.classList.toggle("on", x === b));
   const su = b.dataset.m === "signup";
   $("fName").hidden = !su; $("aName").required = su;
-  $("authTitle").textContent = su ? "حساب جديد" : "تسجيل الدخول";
   $("authBtn").textContent = su ? "إنشاء الحساب" : "دخول";
 });
 
@@ -542,8 +541,8 @@ function startAdminOrders() {
     const orders = s.docs.map(d => ({ id: d.id, ...d.data() }));
     $("sNew").textContent = orders.filter(o => o.status === "new").length;
     $("orders").innerHTML = orders.map(o => `
-      <div class="ord ${o.status === "new" ? "new" : ""}">
-        <b>${esc(o.name)}</b> - ${money(o.total)} 
+      <div class="ord">
+        <b>${o.name}</b> - ${money(o.total)} 
         <select onchange="updateOrderStatus('${o.id}', this.value)">
           <option value="new" ${o.status === "new" ? "selected" : ""}>جديد</option>
           <option value="preparing" ${o.status === "preparing" ? "selected" : ""}>تجهيز</option>
@@ -559,13 +558,13 @@ document.querySelectorAll(".tab").forEach(b => b.onclick = () => {
   ["dash", "orders", "products"].forEach(t => $("t-" + t).hidden = t !== b.dataset.t);
 });
 
-let editingId = null, imageData = null;
+let imageData = null;
 function renderAdminProducts() {
   $("sProducts").textContent = products.length;
   $("plist").innerHTML = products.map(p => `
     <div class="pcard">
-      ${p.image ? `<img src="${esc(p.image)}">` : `<div class="ph">🛍️</div>`}
-      <b>${esc(p.name)}</b>
+      ${p.image ? `<img src="${p.image}">` : `<div class="ph">🛍️</div>`}
+      <b>${p.name}</b>
       <div>${money(p.price)}</div>
       <button class="btn red sm" onclick="deleteProduct('${p.id}')">حذف</button>
     </div>
