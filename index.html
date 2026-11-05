@@ -83,7 +83,6 @@ img{max-width:100%}
 .perks{display:flex;gap:8px;flex-wrap:wrap;position:relative}
 .perks span{background:rgba(255,255,255,.16);padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600}
 
-/* شريط تقدم الطلبات */
 .ordprog{display:flex;align-items:center;justify-content:space-between;margin:14px 0;padding:0 4px;position:relative}
 .ordprog:before{content:"";position:absolute;top:16px;left:20px;right:20px;height:3px;background:#e4ebe6;border-radius:2px;z-index:0}
 .ordprog .step{flex:1;text-align:center;position:relative;z-index:1}
@@ -184,13 +183,11 @@ textarea.inp{resize:vertical}
 .total{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin-bottom:10px}
 .total span:last-child{color:var(--g2)}
 
-/* الكوبون */
 .coupon-row{display:flex;gap:8px;margin-bottom:10px}
 .coupon-row input{flex:1;padding:10px 14px;border-radius:12px;border:1.5px solid var(--bd);outline:none;text-transform:uppercase}
 .coupon-row button{background:var(--or);color:#222;padding:0 18px;border-radius:12px;font-weight:800}
 .disc-line{display:flex;justify-content:space-between;color:var(--g2);font-weight:700;font-size:.92rem;margin-bottom:6px}
 
-/* التقييمات */
 .stars-input{display:flex;gap:4px;font-size:1.8rem;direction:ltr;justify-content:center;margin:6px 0 12px}
 .stars-input span{cursor:pointer;color:#d1d5db;transition:.15s}
 .stars-input span.on{color:var(--or)}
@@ -225,7 +222,6 @@ textarea.inp{resize:vertical}
 .offline.on{transform:none}
 footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;margin-top:20px}
 
-/* ===== admin ===== */
 #admin{background:var(--bg);min-height:100vh}
 .a-top{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:50;padding-top:env(safe-area-inset-top)}
 .a-in{max-width:1100px;margin:auto;padding:8px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -273,13 +269,12 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 .bar-col small{font-size:.7rem;color:var(--mu)}
 .bar-col b{font-size:.75rem;color:var(--g2)}
 </style>
-  </head>
-  <body>
+</head>
+<body>
 
 <div id="splash"><img data-logo alt="هايبر البركة"><div class="spin"></div></div>
 <div class="offline" id="offline">⚠️ أنت غير متصل بالإنترنت — سيتم التحديث تلقائياً عند عودة الاتصال</div>
 
-<!-- ============ المتجر ============ -->
 <div id="shop">
   <header class="top">
     <div class="top-in">
@@ -319,7 +314,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   <button class="fab hide" id="fab"><span class="i" data-i="cart"></span>عرض السلة<span id="fabTotal">0</span></button>
 </div>
 
-<!-- ============ لوحة التحكم ============ -->
 <div id="admin" hidden>
   <header class="a-top">
     <div class="a-in">
@@ -469,10 +463,8 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </main>
 </div>
 
-<!-- ============ النوافذ ============ -->
 <div id="backdrop"></div>
 
-<!-- تسجيل الدخول -->
 <div class="sheet center" id="authSheet">
   <div class="sh-head"><h3 id="authTitle">تسجيل الدخول</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body">
@@ -489,7 +481,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </div>
 </div>
 
-<!-- السلة -->
 <aside class="sheet drawer" id="cartSheet">
   <div class="sh-head"><h3>🛒 سلة المشتريات</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body" id="items"></div>
@@ -511,13 +502,11 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </div>
 </aside>
 
-<!-- المفضلة -->
 <div class="sheet center" id="favSheet">
   <div class="sh-head"><h3>❤️ مفضلاتي</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body" id="favList"></div>
 </div>
 
-<!-- التقييمات -->
 <div class="sheet center" id="reviewsSheet">
   <div class="sh-head"><h3>⭐ تقييمات المنتج</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body">
@@ -535,19 +524,16 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </div>
 </div>
 
-<!-- الإشعارات -->
 <div class="sheet center" id="notifSheet">
   <div class="sh-head"><h3>🔔 إشعارات الهايبر</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body" id="notifList"></div>
 </div>
 
-<!-- طلباتي -->
 <div class="sheet center" id="ordersSheet">
   <div class="sh-head"><h3>📦 طلباتي</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body" id="myOrders"></div>
 </div>
 
-<!-- حسابي -->
 <div class="sheet center" id="menuSheet">
   <div class="sh-head"><h3>حسابي</h3><button class="x" data-close><span class="i" data-i="x"></span></button></div>
   <div class="sh-body">
@@ -560,14 +546,16 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 </div>
 
 <div class="toast" id="toast"></div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getDatabase, ref, push, set, update, remove, onValue, query, orderByChild, equalTo, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCAGNcDQnU93Yf85NpwijgIKJEJZMoyZUM",
   authDomain: "haybar-f088e.firebaseapp.com",
+  databaseURL: "https://haybar-f088e-default-rtdb.firebaseio.com",
   projectId: "haybar-f088e",
   storageBucket: "haybar-f088e.firebasestorage.app",
   messagingSenderId: "848725586091",
@@ -579,15 +567,15 @@ const ADMIN_EMAIL = ADMIN_PHONE + EMAIL_DOMAIN;
 const LOGO = "data:image/jpeg;base64,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";
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const auth = getAuth(app);
+const db = getDatabase(app);
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money = n => Number(n || 0).toLocaleString("en-US") + " ج.م";
 const normPhone = s => String(s || "").replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/\D/g, "");
 const validPhone = p => /^01[0125]\d{8}$/.test(p);
-const ms = ts => ts?.toMillis ? ts.toMillis() : (ts ? +ts : Date.now());
+const ms = ts => ts ? new Date(ts).getTime() : Date.now();
 const fmt = t => new Date(t).toLocaleString("ar-EG-u-nu-latn", { dateStyle: "medium", timeStyle: "short" });
 const STATUS = { new: "جديد", preparing: "قيد التجهيز", delivered: "تم التسليم", cancelled: "ملغي" };
 let toastT;
@@ -628,17 +616,14 @@ const hydrate = (root = document) => {
 hydrate();
 $("year").textContent = new Date().getFullYear();
 
-/* ---------- الحالة ---------- */
 let user = null, profile = null, isAdmin = false, authReady = false;
 let products = [], categories = [], coupons = [], reviews = [], settings = { open: true, closedMsg: "" };
 let cart = {}, favs = {}, activeCat = "الكل", q = "";
 let myOrders = [], announcements = [], allOrders = [], allUsers = [];
-let unsubUser = [], unsubAdmin = [];
 let firstAdminOrders = true, currentReviewProduct = null, currentReviewRating = 0;
 try { cart = JSON.parse(localStorage.getItem("baraka_cart") || "{}"); } catch { cart = {}; }
 try { favs = JSON.parse(localStorage.getItem("baraka_favs") || "{}"); } catch { favs = {}; }
 
-/* ---------- النوافذ ---------- */
 const sheets = ["authSheet","cartSheet","favSheet","reviewsSheet","notifSheet","ordersSheet","menuSheet"];
 const openSheet = id => { sheets.forEach(s => $(s).classList.toggle("open", s === id)); $("backdrop").classList.add("on"); document.body.style.overflow = "hidden"; };
 const closeSheets = () => { sheets.forEach(s => $(s).classList.remove("open")); $("backdrop").classList.remove("on"); document.body.style.overflow = ""; };
@@ -646,49 +631,50 @@ $("backdrop").onclick = closeSheets;
 document.querySelectorAll("[data-close]").forEach(b => b.onclick = closeSheets);
 document.addEventListener("keydown", e => { if (e.key === "Escape") { closeSheets(); $("suggest").hidden = true; } });
 
-/* ---------- الاتصال ---------- */
 const offline = $("offline");
 const setNet = () => offline.classList.toggle("on", !navigator.onLine);
 addEventListener("online", setNet); addEventListener("offline", setNet); setNet();
 
-/* ---------- Firestore: المنتجات ---------- */
-onSnapshot(collection(db, "products"), snap => {
+onValue(ref(db, "products"), snap => {
   renderProducts.loaded = true;
-  products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  products = [];
+  const v = snap.val() || {};
+  for (let k in v) products.push({ id: k, ...v[k] });
   syncCartWithProducts(); renderCats(); renderProducts(); renderCart();
   if (isAdmin) { renderAdminProducts(); renderStats(); }
-}, e => { console.warn("products", e); renderProducts.loaded = true; renderProducts(); });
+});
 
-/* ---------- Firestore: الأقسام ---------- */
-onSnapshot(query(collection(db, "categories"), orderBy("order", "asc")), snap => {
-  categories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+onValue(ref(db, "categories"), snap => {
+  categories = [];
+  const v = snap.val() || {};
+  for (let k in v) categories.push({ id: k, ...v[k] });
+  categories.sort((a,b) => (a.order||0) - (b.order||0));
   renderCats(); renderCatEditor();
-}, e => console.warn("categories", e));
+});
 
-/* ---------- Firestore: التقييمات ---------- */
-onSnapshot(collection(db, "reviews"), snap => {
-  reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+onValue(ref(db, "reviews"), snap => {
+  reviews = [];
+  const v = snap.val() || {};
+  for (let k in v) reviews.push({ id: k, ...v[k] });
   renderProducts();
   if (currentReviewProduct) renderReviewsSheet(currentReviewProduct);
   if (isAdmin) renderStats();
-}, e => console.warn("reviews", e));
+});
 
-/* ---------- Firestore: الكوبونات ---------- */
-onSnapshot(collection(db, "coupons"), snap => {
-  coupons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+onValue(ref(db, "coupons"), snap => {
+  coupons = [];
+  const v = snap.val() || {};
+  for (let k in v) coupons.push({ id: k, ...v[k] });
   if (isAdmin) renderCouponList();
-}, e => console.warn("coupons", e));
+});
 
-/* ---------- Firestore: الإعدادات ---------- */
-onSnapshot(doc(db, "settings", "shop"), snap => {
-  settings = snap.exists() ? snap.data() : { open: true, closedMsg: "" };
+onValue(ref(db, "settings/shop"), snap => {
+  settings = snap.val() || { open: true, closedMsg: "" };
   if (isAdmin) { $("openSwitch").checked = settings.open !== false; updateSettingsUI(); }
-}, e => console.warn("settings", e));
+});
 
-/* ---------- مساعدات ---------- */
 const visible = () => products.filter(p => p.available !== false);
 const catOf = p => (p.category || "").trim() || "أخرى";
-const getPrice = p => +p.price || 0;
 const getStock = p => p.stock == null || p.stock === "" ? null : +p.stock;
 const getProductRating = id => {
   const rs = reviews.filter(r => r.productId === id);
@@ -696,7 +682,6 @@ const getProductRating = id => {
   return { avg: (rs.reduce((s,r) => s + (+r.rating||0), 0) / rs.length).toFixed(1), count: rs.length };
 };
 
-/* ---------- عرض المنتجات ---------- */
 function renderCats() {
   const usableCats = categories.length ? categories.map(c => c.name) : [...new Set(visible().map(catOf))];
   if (activeCat !== "الكل" && !usableCats.includes(activeCat)) activeCat = "الكل";
@@ -751,7 +736,6 @@ function renderProducts() {
   }
 }
 
-/* ---------- أحداث المنتجات ---------- */
 $("cats").addEventListener("click", e => {
   const c = e.target.closest("[data-c]")?.dataset.c; if (!c) return;
   activeCat = c; renderCats(); renderProducts();
@@ -767,7 +751,6 @@ $("list").addEventListener("click", e => {
   if (btn) changeQty(btn.dataset.id, btn.dataset.a === "plus" ? 1 : -1);
 });
 
-/* ---------- البحث الذكي ---------- */
 const SEARCH_KEY = "baraka_search_hist";
 const getSearchHist = () => { try { return JSON.parse(localStorage.getItem(SEARCH_KEY) || "[]"); } catch { return []; } };
 const saveSearchHist = (term) => {
@@ -822,7 +805,6 @@ function showSearchSuggest(term, matches = []) {
   });
 }
 
-/* ---------- المفضلة ---------- */
 const saveFavs = () => { try { localStorage.setItem("baraka_favs", JSON.stringify(favs)); } catch {} };
 function toggleFav(id) {
   if (favs[id]) delete favs[id];
@@ -848,7 +830,6 @@ $("favList").addEventListener("click", e => {
   const rv = e.target.closest("[data-rv]"); if (rv) openReviews(rv.dataset.rv);
 });
 
-/* ---------- السلة ---------- */
 function syncCartWithProducts() {
   if (!products.length) return;
   let changed = false;
@@ -928,7 +909,6 @@ function fillOrderForm() {
   if (!$("cAddr").value) $("cAddr").value = profile?.address || "";
 }
 
-/* ---------- الكوبون ---------- */
 $("applyCoupon").onclick = () => {
   const code = $("couponInput").value.trim().toUpperCase();
   if (!code) return;
@@ -943,7 +923,6 @@ $("applyCoupon").onclick = () => {
   renderCart(); toast("تم تطبيق الكوبون ✔");
 };
 
-/* ---------- إرسال الطلب ---------- */
 $("orderForm").addEventListener("submit", async e => {
   e.preventDefault();
   if (!user) return openAuth("login");
@@ -955,15 +934,17 @@ $("orderForm").addEventListener("submit", async e => {
   $("sendBtn").disabled = true;
   try {
     const t = calcTotals();
+    const newRef = push(ref(db, "orders"));
     const data = {
+      id: newRef.key,
       uid: user.uid, name: $("cName").value.trim(), phone,
       userPhone: profile?.phone || "", address: $("cAddr").value.trim(),
       notes: $("cNote").value.trim(), items, subtotal: t.sub, discount: t.disc,
       couponCode: appliedCoupon?.code || "", total: t.total, status: "new",
-      createdAt: serverTimestamp()
+      createdAt: new Date().toISOString()
     };
-    await addDoc(collection(db, "orders"), data);
-    setDoc(doc(db, "users", user.uid), { address: data.address, name: data.name }, { merge: true }).catch(() => {});
+    await set(newRef, data);
+    await update(ref(db, "users/" + user.uid), { address: data.address, name: data.name }).catch(() => {});
     if (profile) { profile.address = data.address; profile.name = data.name; }
     cart = {}; appliedCoupon = null;
     try { localStorage.removeItem("baraka_coupon"); } catch {}
@@ -971,12 +952,11 @@ $("orderForm").addEventListener("submit", async e => {
     toast("تم إرسال طلبك بنجاح 🌟");
   } catch (err) {
     console.error(err);
-    toast(err.code === "permission-denied" ? "لا توجد صلاحية — راجع قواعد Firestore" : "فشل إرسال الطلب");
+    toast("فشل إرسال الطلب");
   }
   $("sendBtn").disabled = false;
 });
 
-/* ---------- تسجيل الدخول ---------- */
 let authMode = "login";
 function setMode(m) {
   authMode = m;
@@ -1022,7 +1002,7 @@ $("authForm").addEventListener("submit", async e => {
       const name = $("aName").value.trim();
       const cred = await createUserWithEmailAndPassword(auth, phone + EMAIL_DOMAIN, pass);
       await updateProfile(cred.user, { displayName: name }).catch(() => {});
-      await setDoc(doc(db, "users", cred.user.uid), { name, phone, createdAt: serverTimestamp() }, { merge: true }).catch(() => {});
+      await set(ref(db, "users/" + cred.user.uid), { name, phone, createdAt: new Date().toISOString() }).catch(() => {});
       profile = { name, phone };
       toast(phone === ADMIN_PHONE ? "تم إنشاء حساب المدير 👑" : `أهلاً ${name} 🎉`);
     } else {
@@ -1050,33 +1030,62 @@ $("brand").onclick = e => { if (location.hash) { e.preventDefault(); location.ha
 const doLogout = async () => { try { await signOut(auth); } catch {} closeSheets(); location.hash = ""; toast("تم تسجيل الخروج"); };
 $("mLogout").onclick = $("aLogout").onclick = doLogout;
 
-/* ---------- حالة المستخدم ---------- */
 onAuthStateChanged(auth, u => {
   authReady = true;
-  unsubUser.forEach(f => f()); unsubUser = [];
-  unsubAdmin.forEach(f => f()); unsubAdmin = []; firstAdminOrders = true;
   user = u; profile = null; myOrders = []; announcements = []; allOrders = []; allUsers = [];
   isAdmin = !!u && u.email === ADMIN_EMAIL;
   applyUserUI();
   if (u) {
-    unsubUser.push(onSnapshot(doc(db, "users", u.uid), s => {
-      profile = s.exists() ? s.data() : { name: u.displayName || "", phone: (u.email || "").split("@")[0] };
+    onValue(ref(db, "users/" + u.uid), s => {
+      profile = s.val() || { name: u.displayName || "", phone: (u.email || "").split("@")[0] };
       if (!profile.phone) profile.phone = (u.email || "").split("@")[0];
       applyUserUI();
-    }, () => { profile = { name: u.displayName || "", phone: (u.email || "").split("@")[0] }; applyUserUI(); }));
-    unsubUser.push(onSnapshot(query(collection(db, "orders"), where("uid", "==", u.uid)), s => {
-      myOrders = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
+    }, () => { profile = { name: u.displayName || "", phone: (u.email || "").split("@")[0] }; applyUserUI(); });
+    onValue(ref(db, "orders"), s => {
+      const v = s.val() || {};
+      myOrders = Object.values(v).filter(o => o.uid === u.uid).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
       renderBell(); if ($("ordersSheet").classList.contains("open")) renderMyOrders();
-    }, e => console.warn("orders", e)));
-    unsubUser.push(onSnapshot(query(collection(db, "notifications"), orderBy("createdAt", "desc")), s => {
-      announcements = s.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (isAdmin) {
+        allOrders = Object.values(v).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
+        renderAdminOrders(); renderStats(); renderBell();
+        const nw = allOrders.filter(o => o.status === "new").length;
+        if (!firstAdminOrders && nw > 0) {
+          beep();
+          toast("🔔 وصلك طلب جديد!");
+          if ("Notification" in window && Notification.permission === "granted") {
+            try { new Notification("🛍️ هايبر البركة", { body: "وصلك طلب جديد!", icon: LOGO }); } catch {}
+          }
+        }
+        firstAdminOrders = false;
+      }
+    });
+    onValue(ref(db, "notifications"), s => {
+      const v = s.val() || {};
+      announcements = Object.values(v).sort((a, b) => ms(b.createdAt) - ms(a.createdAt));
       renderBell(); renderAnnList();
-    }, e => console.warn("notifications", e)));
-    if (isAdmin) startAdmin();
+    });
+    if (isAdmin) {
+      onValue(ref(db, "users"), s => {
+        allUsers = s.val() ? Object.keys(s.val()).map(k => ({ id: k, ...s.val()[k] })) : [];
+        renderStats();
+      });
+      renderAdminProducts();
+      renderStats();
+    }
+  } else {
+    firstAdminOrders = true;
   }
   route();
   $("splash").classList.add("done");
 });
+
+function beep() {
+  try {
+    const c = new (window.AudioContext || window.webkitAudioContext)(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination); o.frequency.value = 880; g.gain.value = .15;
+    o.start(); o.stop(c.currentTime + .25);
+  } catch {}
+}
 
 function applyUserUI() {
   const name = profile?.name || user?.displayName || "";
@@ -1087,7 +1096,6 @@ function applyUserUI() {
   renderCart(); renderBell(); renderFavCount();
 }
 
-/* ---------- الإشعارات ---------- */
 const seenKey = () => "baraka_seen_" + (user?.uid || "");
 const getSeen = () => +(localStorage.getItem(seenKey()) || 0);
 const ORDER_MSG = {
@@ -1123,7 +1131,6 @@ $("bellBtn").onclick = () => {
   renderBell();
 };
 
-/* ---------- شريط التقدم ---------- */
 function progressBar(o) {
   const steps = [
     { k: "new", n: "استلام", e: "🧾" },
@@ -1147,7 +1154,6 @@ function renderMyOrders() {
     <b>الإجمالي: ${money(o.total)}</b></div>`).join("") : `<div class="empty"><b>📦</b>لا توجد طلبات بعد</div>`;
 }
 
-/* ---------- التقييمات ---------- */
 function openReviews(pid) {
   currentReviewProduct = pid;
   currentReviewRating = 0;
@@ -1169,7 +1175,6 @@ function renderReviewsSheet(pid) {
     <small>${fmt(ms(r.createdAt))}</small>
   </div>`).join("");
 
-  // هل يحق للمستخدم التقييم؟
   const canReview = user && myOrders.some(o => o.status === "delivered" && (o.items || []).some(it => it.id === pid || it.name === p.name));
   const already = user && rs.some(r => r.uid === user.uid);
   $("reviewForm").hidden = !canReview || already;
@@ -1183,9 +1188,10 @@ function renderReviewsSheet(pid) {
     $("submitReview").onclick = async () => {
       if (!currentReviewRating) return toast("اختر تقييماً");
       try {
-        await addDoc(collection(db, "reviews"), {
-          productId: pid, uid: user.uid, userName: profile?.name || user.displayName || "عميل",
-          rating: currentReviewRating, text: $("reviewText").value.trim(), createdAt: serverTimestamp()
+        const rRef = push(ref(db, "reviews"));
+        await set(rRef, {
+          id: rRef.key, productId: pid, uid: user.uid, userName: profile?.name || user.displayName || "عميل",
+          rating: currentReviewRating, text: $("reviewText").value.trim(), createdAt: new Date().toISOString()
         });
         toast("تم إرسال تقييمك ✔"); $("reviewText").value = ""; currentReviewRating = 0;
         $("starsInput").querySelectorAll("span").forEach(s => s.classList.remove("on"));
@@ -1194,7 +1200,6 @@ function renderReviewsSheet(pid) {
   }
 }
 
-/* ================= لوحة التحكم ================= */
 function route() {
   const wantAdmin = location.hash.startsWith("#admin");
   if (wantAdmin && authReady && !isAdmin) {
@@ -1209,29 +1214,6 @@ function route() {
 }
 addEventListener("hashchange", route);
 
-function startAdmin() {
-  unsubAdmin.push(onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), s => {
-    const oldNew = allOrders.filter(o => o.status === "new").length;
-    allOrders = s.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderAdminOrders(); renderStats(); renderBell();
-    const nw = allOrders.filter(o => o.status === "new").length;
-    if (!firstAdminOrders && nw > oldNew) {
-      try {
-        const c = new (window.AudioContext||window.webkitAudioContext)(); const o = c.createOscillator(); const g = c.createGain();
-        o.connect(g); g.connect(c.destination); o.frequency.value = 880; g.gain.value = .15;
-        o.start(); o.stop(c.currentTime + .25);
-      } catch {}
-      toast("🔔 وصلك طلب جديد!");
-      if ("Notification" in window && Notification.permission === "granted") {
-        try { new Notification("🛍️ هايبر البركة", { body: "وصلك طلب جديد!", icon: LOGO }); } catch {}
-      }
-    }
-    firstAdminOrders = false;
-  }, () => toast("تعذر تحميل الطلبات - راجع قواعد Firestore")));
-  unsubAdmin.push(onSnapshot(collection(db, "users"), s => { allUsers = s.docs; renderStats(); }, () => {}));
-  renderAdminProducts();
-  renderStats();
-}
 $("aNotify").onclick = async () => {
   if (!("Notification" in window)) return toast("متصفحك لا يدعم الإشعارات");
   const p = await Notification.requestPermission();
@@ -1246,7 +1228,7 @@ document.querySelectorAll(".tab").forEach(b => b.onclick = () => {
   if (b.dataset.t === "settings") renderSettings();
 });
 
-const isToday = ts => ts?.toDate && ts.toDate().toDateString() === new Date().toDateString();
+const isToday = ts => ts && new Date(ts).toDateString() === new Date().toDateString();
 
 function renderStats() {
   const nw = allOrders.filter(o => o.status === "new").length;
@@ -1270,7 +1252,7 @@ function renderChart() {
     days.push({ date: d, label: d.toLocaleDateString("ar-EG-u-nu-latn", { weekday: "short" }), total: 0 });
   }
   allOrders.filter(o => o.status === "delivered").forEach(o => {
-    const d = o.createdAt?.toDate?.(); if (!d) return;
+    const d = new Date(o.createdAt); if (!d) return;
     const dd = d.toDateString();
     const found = days.find(x => x.date.toDateString() === dd);
     if (found) found.total += (+o.total || 0);
@@ -1285,7 +1267,7 @@ function renderChart() {
 }
 
 function orderHtml(o) {
-  const when = o.createdAt?.toDate ? o.createdAt.toDate().toLocaleString("ar-EG-u-nu-latn") : "";
+  const when = o.createdAt ? new Date(o.createdAt).toLocaleString("ar-EG-u-nu-latn") : "";
   const wa = "20" + String(o.phone || "").replace(/^0/, "");
   return `<div class="ord ${o.status === "new" ? "new" : ""}">
     <div class="row"><b>${esc(o.name)}</b><span class="st ${esc(o.status)}">${STATUS[o.status] || esc(o.status)}</span></div>
@@ -1303,11 +1285,11 @@ function orderHtml(o) {
 }
 function bindOrderActions(root) {
   root.querySelectorAll("[data-os]").forEach(s => s.onchange = async () => {
-    try { await updateDoc(doc(db, "orders", s.dataset.os), { status: s.value, statusAt: serverTimestamp() }); toast("تم تحديث الحالة"); } catch { toast("فشل التحديث"); }
+    try { await update(ref(db, "orders/" + s.dataset.os), { status: s.value, statusAt: new Date().toISOString() }); toast("تم تحديث الحالة"); } catch { toast("فشل التحديث"); }
   });
   root.querySelectorAll("[data-od]").forEach(b => b.onclick = async () => {
     if (!confirm("حذف الطلب؟")) return;
-    try { await deleteDoc(doc(db, "orders", b.dataset.od)); toast("تم الحذف"); } catch { toast("فشل الحذف"); }
+    try { await remove(ref(db, "orders/" + b.dataset.od)); toast("تم الحذف"); } catch { toast("فشل الحذف"); }
   });
   root.querySelectorAll("[data-op]").forEach(b => b.onclick = () => printOrder(b.dataset.op));
 }
@@ -1350,7 +1332,7 @@ $("exportCsv").onclick = () => {
   const rows = [["رقم الطلب","الاسم","الموبايل","العنوان","الإجمالي","الحالة","التاريخ"]];
   allOrders.forEach(o => rows.push([
     o.id.slice(-5), o.name || "", o.phone || "", o.address || "",
-    o.total || 0, STATUS[o.status] || o.status, o.createdAt?.toDate ? o.createdAt.toDate().toISOString().slice(0,10) : ""
+    o.total || 0, STATUS[o.status] || o.status, o.createdAt ? o.createdAt.slice(0,10) : ""
   ]));
   const csv = "\uFEFF" + rows.map(r => r.map(x => `"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
@@ -1361,12 +1343,10 @@ $("exportCsv").onclick = () => {
   toast("تم التصدير");
 };
 
-/* ---------- المنتجات ---------- */
 let editingId = null, imageData = null;
 function renderAdminProducts() {
   if (!isAdmin) return;
   const qq = $("pSearch").value.trim();
-  $("catList"); // removed
   $("pCat").innerHTML = `<option value="">بدون قسم</option>` + categories.map(c => `<option value="${esc(c.name)}">${esc(c.emoji||"")} ${esc(c.name)}</option>`).join("");
   const sorted = [...products].sort((a, b) => (a.name || "").localeCompare(b.name || "", "ar"));
   const list = sorted.filter(p => (p.name || "").includes(qq));
@@ -1380,7 +1360,7 @@ function renderAdminProducts() {
   $("plist").querySelectorAll("[data-pe]").forEach(b => b.onclick = () => editProduct(b.dataset.pe));
   $("plist").querySelectorAll("[data-pd]").forEach(b => b.onclick = async () => {
     if (!confirm("حذف المنتج؟")) return;
-    try { await deleteDoc(doc(db, "products", b.dataset.pd)); toast("تم الحذف"); } catch { toast("فشل الحذف"); }
+    try { await remove(ref(db, "products/" + b.dataset.pd)); toast("تم الحذف"); } catch { toast("فشل الحذف"); }
   });
   renderStats();
 }
@@ -1433,13 +1413,19 @@ async function saveProduct(keepOpen) {
     old: $("pOld").value ? +$("pOld").value : null,
     category: $("pCat").value.trim(), available: $("pAvail").value === "1",
     stock: stockVal === "" ? null : +stockVal,
-    image: imageData || "", updatedAt: serverTimestamp()
+    image: imageData || "", updatedAt: new Date().toISOString()
   };
   if (!data.name || isNaN(data.price) || $("pPrice").value === "") return toast("أدخل الاسم والسعر");
   $("pSave").disabled = $("pSaveAdd").disabled = true;
   try {
-    if (editingId) await setDoc(doc(db, "products", editingId), data, { merge: true });
-    else await addDoc(collection(db, "products"), { ...data, createdAt: serverTimestamp() });
+    if (editingId) {
+      await update(ref(db, "products/" + editingId), data);
+    } else {
+      const newRef = push(ref(db, "products"));
+      data.id = newRef.key;
+      data.createdAt = new Date().toISOString();
+      await set(newRef, data);
+    }
     toast(editingId ? "تم التحديث ✔" : "تمت الإضافة ✔");
     resetForm(); if (keepOpen) $("pName").focus();
   } catch (err) { console.error(err); toast("فشل الحفظ"); }
@@ -1448,7 +1434,6 @@ async function saveProduct(keepOpen) {
 $("pForm").addEventListener("submit", e => { e.preventDefault(); saveProduct(false); });
 $("pSaveAdd").onclick = () => saveProduct(true);
 
-/* ---------- الأقسام ---------- */
 function renderCatEditor() {
   if (!isAdmin) return;
   $("catEditor").innerHTML = categories.map(c => `
@@ -1458,11 +1443,11 @@ function renderCatEditor() {
       <button data-cd="${esc(c.id)}">${svg("trash")}</button>
     </div>`).join("") || `<div class="empty" style="grid-column:1/-1">لا توجد أقسام، أضف أول قسم</div>`;
   $("catEditor").querySelectorAll("[data-ce]").forEach(inp => inp.onchange = async () => {
-    try { await updateDoc(doc(db, "categories", inp.dataset.ce), { [inp.dataset.k]: inp.value }); } catch { toast("فشل التحديث"); }
+    try { await update(ref(db, "categories/" + inp.dataset.ce), { [inp.dataset.k]: inp.value }); } catch { toast("فشل التحديث"); }
   });
   $("catEditor").querySelectorAll("[data-cd]").forEach(b => b.onclick = async () => {
     if (!confirm("حذف القسم؟")) return;
-    try { await deleteDoc(doc(db, "categories", b.dataset.cd)); toast("تم الحذف"); } catch { toast("فشل الحذف"); }
+    try { await remove(ref(db, "categories/" + b.dataset.cd)); toast("تم الحذف"); } catch { toast("فشل الحذف"); }
   });
 }
 $("catAddForm").onsubmit = async e => {
@@ -1471,23 +1456,27 @@ $("catAddForm").onsubmit = async e => {
   const emoji = $("newCatEmoji").value.trim();
   if (!name) return;
   try {
-    await addDoc(collection(db, "categories"), { name, emoji, order: categories.length, createdAt: serverTimestamp() });
+    const newRef = push(ref(db, "categories"));
+    await set(newRef, { id: newRef.key, name, emoji, order: categories.length, createdAt: new Date().toISOString() });
     $("newCatName").value = ""; $("newCatEmoji").value = ""; toast("تمت الإضافة");
   } catch { toast("فشل"); }
 };
 
-/* ---------- الكوبونات ---------- */
 $("couponForm").onsubmit = async e => {
   e.preventDefault();
   const data = {
     code: $("cCode").value.trim().toUpperCase(),
     type: $("cType").value, value: +$("cValue").value,
     min: +$("cMin").value || 0, expire: $("cExpire").value || "",
-    createdAt: serverTimestamp()
+    createdAt: new Date().toISOString()
   };
   if (!data.code || !data.value) return toast("أدخل الكود والقيمة");
-  try { await addDoc(collection(db, "coupons"), data); $("couponForm").reset(); toast("تمت الإضافة"); }
-  catch { toast("فشل"); }
+  try {
+    const newRef = push(ref(db, "coupons"));
+    data.id = newRef.key;
+    await set(newRef, data);
+    $("couponForm").reset(); toast("تمت الإضافة");
+  } catch { toast("فشل"); }
 };
 function renderCouponList() {
   if (!isAdmin) return;
@@ -1498,15 +1487,15 @@ function renderCouponList() {
   </div>`).join("") || `<div class="empty">لا توجد كوبونات</div>`;
   $("couponList").querySelectorAll("[data-cdel]").forEach(b => b.onclick = async () => {
     if (!confirm("حذف الكوبون؟")) return;
-    try { await deleteDoc(doc(db, "coupons", b.dataset.cdel)); } catch { toast("فشل"); }
+    try { await remove(ref(db, "coupons/" + b.dataset.cdel)); } catch { toast("فشل"); }
   });
 }
 
-/* ---------- الإشعارات ---------- */
 $("annForm").addEventListener("submit", async e => {
   e.preventDefault();
   try {
-    await addDoc(collection(db, "notifications"), { title: $("annTitle").value.trim(), body: $("annBody").value.trim(), createdAt: serverTimestamp() });
+    const newRef = push(ref(db, "notifications"));
+    await set(newRef, { id: newRef.key, title: $("annTitle").value.trim(), body: $("annBody").value.trim(), createdAt: new Date().toISOString() });
     $("annForm").reset(); toast("تم الإرسال 📣");
   } catch { toast("فشل"); }
 });
@@ -1516,19 +1505,17 @@ function renderAnnList() {
     <button class="btn red sm" data-ad="${esc(a.id)}">${svg("trash")}</button></div>`).join("") || `<div class="empty">لا توجد إشعارات</div>`;
   $("annList").querySelectorAll("[data-ad]").forEach(b => b.onclick = async () => {
     if (!confirm("حذف الإشعار؟")) return;
-    try { await deleteDoc(doc(db, "notifications", b.dataset.ad)); } catch { toast("فشل"); }
+    try { await remove(ref(db, "notifications/" + b.dataset.ad)); } catch { toast("فشل"); }
   });
 }
 
-/* ---------- الإعدادات ---------- */
 function renderSettings() {
   if (!isAdmin) return;
   $("openSwitch").checked = settings.open !== false;
   $("closedMsg").value = settings.closedMsg || "";
   updateSettingsUI();
   $("adminUsers").innerHTML = allUsers.map(u => {
-    const d = u.data();
-    return `<div class="nt"><div class="em">👤</div><div style="flex:1"><b>${esc(d.name || "بدون اسم")}</b><p>${esc(d.phone || "")}${d.phone === ADMIN_PHONE ? " — <b style='color:var(--g2)'>مدير</b>" : ""}</p></div></div>`;
+    return `<div class="nt"><div class="em">👤</div><div style="flex:1"><b>${esc(u.name || "بدون اسم")}</b><p>${esc(u.phone || "")}${u.phone === ADMIN_PHONE ? " — <b style='color:var(--g2)'>مدير</b>" : ""}</p></div></div>`;
   }).join("") || `<div class="empty">لا يوجد عملاء</div>`;
 }
 function updateSettingsUI() {
@@ -1539,12 +1526,11 @@ function updateSettingsUI() {
 $("openSwitch").onchange = () => { settings.open = $("openSwitch").checked; updateSettingsUI(); };
 $("saveSettings").onclick = async () => {
   try {
-    await setDoc(doc(db, "settings", "shop"), { open: $("openSwitch").checked, closedMsg: $("closedMsg").value.trim() }, { merge: true });
+    await update(ref(db, "settings/shop"), { open: $("openSwitch").checked, closedMsg: $("closedMsg").value.trim() });
     toast("تم الحفظ ✔");
   } catch { toast("فشل"); }
 };
 
-/* ---------- PWA ---------- */
 let deferred = null;
 addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; $("installBtn").hidden = false; });
 $("installBtn").onclick = async () => {
@@ -1559,10 +1545,9 @@ const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
 if (isIOS && !standalone) { $("installBtn").hidden = false; $("installBtn").onclick = () => toast("للتثبيت: اضغط مشاركة ثم إضافة للشاشة الرئيسية"); }
 
-/* ---------- التهيئة ---------- */
 renderCats(); renderProducts(); renderCart(); renderFavCount();
 route();
 setTimeout(() => $("splash").classList.add("done"), 4000);
 </script>
 </body>
-  </html>
+                                              </html>
