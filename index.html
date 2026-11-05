@@ -7,8 +7,8 @@
 <meta name="description" content="هايبر البركة - تسوق مستلزماتك اليومية بأفضل الأسعار واطلب أونلاين.">
 <meta name="theme-color" content="#16a34a">
 <link rel="manifest" id="mf">
-<!-- شعار سليم (SVG) بدلاً من الصورة المقطوعة -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='65' font-size='35' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E">
+<!-- شعار نظيف وواضح بدلاً من الصورة المقطوعة -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='60' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="هايبر البركة">
@@ -39,7 +39,7 @@ img{max-width:100%}
 @keyframes float{50%{transform:translateY(-6px)}}
 
 /* header */
-.top{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top)}
+.top{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top)}
 .top-in{max-width:1240px;margin:auto;padding:8px 14px;display:flex;align-items:center;gap:10px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;min-width:0;flex:1}
 .brand img{width:46px;height:46px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.12);flex:none}
@@ -54,7 +54,7 @@ img{max-width:100%}
 .ib.cart:hover{background:var(--g2)}
 .dot{position:absolute;top:-6px;inset-inline-start:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--red);color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
 .ib.cart .dot{background:var(--or);color:#222}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;font-weight:700;font-size:.9rem;transition:.2s;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:999px;font-weight:700;font-size:.9rem;transition:.2s;white-space:nowrap;height:44px;min-width:90px}
 .pill.g{background:var(--g1);color:#fff}.pill.g:hover{background:var(--g2)}
 .pill.o{background:var(--or);color:#222}.pill.o:hover{background:var(--or2)}
 .pill.l{background:var(--gl);color:var(--g2)}
@@ -235,10 +235,10 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
         <div class="hello"><small id="helloSmall">أهلاً بك في</small><b id="helloName">هايبر البركة</b></div>
       </a>
       <div class="actions">
-        <button class="pill o" id="installBtn" hidden><span class="i" data-i="download"></span>تثبيت</button>
+        <button class="pill o" id="installBtn" style="display:none;"><span class="i" data-i="download"></span>تثبيت</button>
         <button class="pill g" id="loginBtn">دخول</button>
-        <button class="ib" id="bellBtn" aria-label="الإشعارات" hidden><span class="i" data-i="bell"></span><span class="dot" id="bellDot" hidden>0</span></button>
-        <button class="ib" id="userBtn" aria-label="حسابي" hidden><span class="i" data-i="user"></span></button>
+        <button class="ib" id="bellBtn" aria-label="الإشعارات" style="display:none;"><span class="i" data-i="bell"></span><span class="dot" id="bellDot" hidden>0</span></button>
+        <button class="ib" id="userBtn" aria-label="حسابي" style="display:none;"><span class="i" data-i="user"></span></button>
         <button class="ib cart" id="cartBtn" aria-label="السلة"><span class="i" data-i="cart"></span><span class="dot" id="cartCount">0</span></button>
       </div>
     </div>
@@ -364,7 +364,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCAGNcDQnU93Yf85NpwijgIKJEJZMoyZUM",
@@ -379,8 +379,8 @@ const ADMIN_PHONE = "01123543649";
 const EMAIL_DOMAIN = "@baraka.app";
 const ADMIN_EMAIL = ADMIN_PHONE + EMAIL_DOMAIN;
 
-// شعار موحد (SVG نصي) لضمان عدم ظهور مربعات أو صور مقطوعة
-const LOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='65' font-size='35' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E";
+// شعار هايبر البركة النظيف
+const LOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='60' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -411,21 +411,18 @@ function closeSheets() { sheets.forEach(s => $(s).classList.remove("open")); $("
 $("backdrop").onclick = closeSheets;
 document.querySelectorAll("[data-close]").forEach(b => b.onclick = closeSheets);
 
-// تحديث المنتجات لحظياً (تم إصلاح مشكلة الاختفاء)
+// تحديث المنتجات لحظياً
 onSnapshot(collection(db, "products"), snap => {
   products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   renderProducts();
   renderCart();
   if (isAdmin) renderAdminProducts();
-}, err => {
-  console.error("خطأ في تحميل المنتجات:", err);
-});
+}, err => { console.error("خطأ في تحميل المنتجات:", err); });
 
 function renderProducts() {
   const box = $("list");
   if (!products.length) { box.innerHTML = `<div class="empty"><b>🛒</b>الهايبر قيد التجهيز، ترقبوا منتجاتنا قريباً</div>`; return; }
   
-  // هنا تم إصلاح المشكلة: عرض كل المنتجات بدون فلترة الحقول المفقودة
   const list = products; 
   
   box.innerHTML = `<section class="sec"><div class="grid">
@@ -480,6 +477,7 @@ $("items").addEventListener("click", e => { const b = e.target.closest("[data-a]
 
 $("cartBtn").onclick = $("fab").onclick = () => openSheet("cartSheet");
 $("needLogin").onclick = () => openSheet("authSheet");
+$("bellBtn").onclick = () => { $("notifList").innerHTML = `<div class="empty">لا توجد إشعارات حالياً</div>`; openSheet("notifSheet"); };
 
 $("orderForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -495,13 +493,11 @@ $("orderForm").addEventListener("submit", async e => {
     });
     cart = {}; renderCart(); renderProducts(); closeSheets();
     toast("تم إرسال طلبك بنجاح 🌟");
-  } catch (err) {
-    toast("حصل خطأ في إرسال الطلب");
-  }
+  } catch (err) { toast("حصل خطأ في إرسال الطلب"); }
   $("sendBtn").disabled = false;
 });
 
-// المصادقة (تسجيل الدخول)
+// المصادقة
 document.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
   document.querySelectorAll(".seg button").forEach(x => x.classList.toggle("on", x === b));
   const su = b.dataset.m === "signup";
@@ -531,10 +527,18 @@ $("authForm").addEventListener("submit", async e => {
 onAuthStateChanged(auth, u => {
   user = u;
   isAdmin = !!u && u.email === ADMIN_EMAIL;
-  $("loginBtn").hidden = !!u;
-  $("userBtn").hidden = !u;
-  $("bellBtn").hidden = !u;
-  $("mAdmin").hidden = !isAdmin;
+  
+  if(u) {
+    $("loginBtn").style.display = "none";
+    $("userBtn").style.display = "grid";
+    $("bellBtn").style.display = "grid";
+    $("mAdmin").hidden = !isAdmin;
+  } else {
+    $("loginBtn").style.display = "inline-flex";
+    $("userBtn").style.display = "none";
+    $("bellBtn").style.display = "none";
+  }
+
   if (u) {
     onSnapshot(doc(db, "users", u.uid), s => { profile = s.data() || {}; $("helloName").textContent = profile.name || u.displayName || "عميلنا"; });
   } else {
@@ -624,6 +628,20 @@ $("pForm").addEventListener("submit", async e => {
   $("pSave").disabled = false;
 });
 
+// تفعيل زر التثبيت
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  $("installBtn").style.display = "inline-flex";
+});
+$("installBtn").onclick = async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') $("installBtn").style.display = "none";
+  deferredPrompt = null;
+};
 </script>
 </body>
 </html>
