@@ -7,7 +7,7 @@
 <meta name="description" content="هايبر البركة - تسوق مستلزماتك اليومية بأفضل الأسعار واطلب أونلاين.">
 <meta name="theme-color" content="#16a34a">
 <link rel="manifest" id="mf">
-<!-- شعار نظيف وواضح بدلاً من الصورة المقطوعة -->
+<!-- شعار التطبيق -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='60' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -364,7 +364,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy, serverTimestamp, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCAGNcDQnU93Yf85NpwijgIKJEJZMoyZUM",
@@ -379,7 +379,7 @@ const ADMIN_PHONE = "01123543649";
 const EMAIL_DOMAIN = "@baraka.app";
 const ADMIN_EMAIL = ADMIN_PHONE + EMAIL_DOMAIN;
 
-// شعار هايبر البركة النظيف
+// شعار هايبر البركة
 const LOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2316a34a'/%3E%3Ctext x='50' y='60' font-size='20' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3E%D9%87%D8%A7%D9%8A%D8%A8%D8%B1 %D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%3C/text%3E%3C/svg%3E";
 
 const app = initializeApp(firebaseConfig);
@@ -401,7 +401,7 @@ document.querySelectorAll("img[data-logo]").forEach(el => el.src = LOGO);
 $("year").textContent = new Date().getFullYear();
 
 let user = null, profile = null, isAdmin = false;
-let products = [], cart = {};
+let products = [], cart = {}, myOrders = [], unsubOrders = null;
 try { cart = JSON.parse(localStorage.getItem("baraka_cart") || "{}"); } catch { cart = {}; }
 
 // السيطرة على النوافذ
@@ -414,19 +414,15 @@ document.querySelectorAll("[data-close]").forEach(b => b.onclick = closeSheets);
 // تحديث المنتجات لحظياً
 onSnapshot(collection(db, "products"), snap => {
   products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderProducts();
-  renderCart();
-  if (isAdmin) renderAdminProducts();
-}, err => { console.error("خطأ في تحميل المنتجات:", err); });
+  renderProducts(); renderCart(); if (isAdmin) renderAdminProducts();
+});
 
 function renderProducts() {
   const box = $("list");
   if (!products.length) { box.innerHTML = `<div class="empty"><b>🛒</b>الهايبر قيد التجهيز، ترقبوا منتجاتنا قريباً</div>`; return; }
   
-  const list = products; 
-  
   box.innerHTML = `<section class="sec"><div class="grid">
-    ${list.map(p => {
+    ${products.map(p => {
       const inCart = cart[p.id]?.qty || 0;
       return `<div class="card">
         <div class="pic">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}">` : "🛍️"}</div>
@@ -477,7 +473,15 @@ $("items").addEventListener("click", e => { const b = e.target.closest("[data-a]
 
 $("cartBtn").onclick = $("fab").onclick = () => openSheet("cartSheet");
 $("needLogin").onclick = () => openSheet("authSheet");
-$("bellBtn").onclick = () => { $("notifList").innerHTML = `<div class="empty">لا توجد إشعارات حالياً</div>`; openSheet("notifSheet"); };
+
+$("bellBtn").onclick = () => {
+  let html = myOrders.map(o => {
+    let txt = o.status === 'new' ? 'تم استلام طلبك وجاري مراجعته' : (o.status === 'preparing' ? 'جاري تجهيز طلبك' : 'تم تسليم طلبك');
+    return `<div class="nt ${o.status==='new'?'un':''}"><div class="em">🛍️</div><div><b>طلب #${esc(o.id.slice(-5))}</b><p>${txt}</p><small>${money(o.total)}</small></div></div>`;
+  }).join("");
+  $("notifList").innerHTML = html || `<div class="empty">لا توجد إشعارات حالياً</div>`;
+  openSheet("notifSheet");
+};
 
 $("orderForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -533,19 +537,23 @@ onAuthStateChanged(auth, u => {
     $("userBtn").style.display = "grid";
     $("bellBtn").style.display = "grid";
     $("mAdmin").hidden = !isAdmin;
+    if(unsubOrders) unsubOrders();
+    unsubOrders = onSnapshot(query(collection(db, "orders"), where("uid", "==", u.uid)), s => {
+      myOrders = s.docs.map(d => ({ id: d.id, ...d.data() }));
+    });
   } else {
     $("loginBtn").style.display = "inline-flex";
     $("userBtn").style.display = "none";
     $("bellBtn").style.display = "none";
+    myOrders = [];
   }
-
+  
   if (u) {
     onSnapshot(doc(db, "users", u.uid), s => { profile = s.data() || {}; $("helloName").textContent = profile.name || u.displayName || "عميلنا"; });
   } else {
     $("helloName").textContent = "هايبر البركة";
   }
-  renderCart();
-  route();
+  renderCart(); route();
   $("splash").classList.add("done");
 });
 
@@ -562,10 +570,10 @@ function route() {
   if (wantAdmin) { renderAdminProducts(); startAdminOrders(); scrollTo(0, 0); }
 }
 
-let ordersUnsub = null;
+let adminUnsub = null;
 function startAdminOrders() {
-  if (ordersUnsub) return;
-  ordersUnsub = onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), s => {
+  if (adminUnsub) return;
+  adminUnsub = onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), s => {
     const orders = s.docs.map(d => ({ id: d.id, ...d.data() }));
     $("sNew").textContent = orders.filter(o => o.status === "new").length;
     $("orders").innerHTML = orders.map(o => `
