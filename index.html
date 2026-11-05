@@ -95,10 +95,6 @@ main{max-width:1240px;margin:auto;padding:6px 14px 100px}
 .add{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--g1);color:#fff;border-radius:12px;padding:9px;font-weight:700;transition:.2s}
 .add:hover{background:var(--g2)}
 .add:active{transform:scale(.96)}
-.stepper{margin-top:auto;display:flex;align-items:center;justify-content:space-between;background:var(--gl);border-radius:12px;padding:3px}
-.stepper button{width:36px;height:34px;border-radius:10px;background:var(--g1);color:#fff;display:grid;place-items:center}
-.stepper button.m{background:#fff;color:var(--g2);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.stepper b{font-size:1rem}
 .empty{text-align:center;color:var(--mu);padding:46px 12px;grid-column:1/-1}
 .empty b{display:block;font-size:2.8rem}
 
@@ -124,7 +120,6 @@ main{max-width:1240px;margin:auto;padding:6px 14px 100px}
 .fld label{font-size:.82rem;color:var(--mu);font-weight:600}
 .inp{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--bd);background:#fafcfb;outline:none;transition:.2s}
 .inp:focus{border-color:var(--g1);background:#fff;box-shadow:0 0 0 4px rgba(22,163,74,.12)}
-textarea.inp{resize:vertical}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:14px;font-weight:800;background:var(--g1);color:#fff;transition:.2s}
 .btn:hover{background:var(--g2)}.btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
@@ -137,14 +132,8 @@ textarea.inp{resize:vertical}
 .authlogo{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:14px;text-align:center}
 .authlogo img{width:84px;height:84px;border-radius:22px;box-shadow:var(--sh)}
 .authlogo p{color:var(--mu);font-size:.88rem}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:#eef3ef;border-radius:14px;padding:4px;margin-bottom:16px}
-.seg button{padding:9px;border-radius:11px;font-weight:700;color:var(--mu);transition:.2s}
-.seg button.on{background:#fff;color:var(--g2);box-shadow:0 2px 8px rgba(0,0,0,.1)}
 
-/* cart items */
 .item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
-.item .th{width:56px;height:56px;border-radius:12px;background:#f1f6f2;display:grid;place-items:center;overflow:hidden;flex:none}
-.item .th img{width:100%;height:100%;object-fit:contain}
 .item .in{flex:1;min-width:0}
 .item .in b{display:block;font-size:.93rem;line-height:1.3}
 .item .in small{color:var(--mu)}
@@ -158,11 +147,8 @@ textarea.inp{resize:vertical}
 .menu-item:hover{background:var(--gl)}
 .menu-item.red{color:var(--red);background:#fef2f2}
 
-/* toast & offline */
 .toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,30px);background:#14231b;color:#fff;padding:12px 22px;border-radius:999px;z-index:3000;opacity:0;pointer-events:none;transition:.3s;max-width:92vw;text-align:center;font-weight:600;box-shadow:var(--sh2)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-.offline{position:fixed;top:0;left:0;right:0;background:var(--red);color:#fff;text-align:center;padding:5px;font-size:.85rem;z-index:3100;transform:translateY(-100%);transition:.3s}
-.offline.on{transform:none}
 footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;margin-top:20px}
 
 /* ===== admin ===== */
@@ -175,7 +161,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 .tabs{max-width:1100px;margin:auto;display:flex;gap:6px;padding:0 14px 10px;overflow-x:auto;scrollbar-width:none}
 .tab{flex:none;display:flex;gap:6px;align-items:center;background:#eef3ef;border-radius:999px;padding:8px 18px;font-weight:700;color:var(--mu);transition:.2s}
 .tab.on{background:var(--g1);color:#fff}
-.tab .bg{background:var(--red);color:#fff;border-radius:999px;padding:0 7px;font-size:.75rem}
 .a-main{max-width:1100px;margin:auto;padding:16px 14px 60px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
 .stat{background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
@@ -193,9 +178,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 <body>
 
 <div id="splash"><img data-logo alt="هايبر البركة"><div class="spin"></div></div>
-<div class="offline" id="offline">⚠️ أنت غير متصل بالإنترنت</div>
 
-<!-- ============ المتجر ============ -->
 <div id="shop">
   <header class="top">
     <div class="top-in">
@@ -204,6 +187,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
         <div class="hello"><small id="helloSmall">أهلاً بك في</small><b id="helloName">هايبر البركة</b></div>
       </a>
       <div class="actions">
+        <button class="pill o" id="installBtn" style="display:none;">تثبيت</button>
         <button class="pill g" id="loginBtn">دخول</button>
         <button class="pill g" id="adminBtn" style="display:none;">لوحة التحكم</button>
         <button class="ib" id="userBtn" style="display:none;">👤</button>
@@ -226,7 +210,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   <button class="fab hide" id="fab">عرض السلة<span id="fabTotal">0</span></button>
 </div>
 
-<!-- ============ لوحة التحكم ============ -->
 <div id="admin" hidden>
   <header class="a-top">
     <div class="a-in">
@@ -237,7 +220,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
     </div>
     <div class="tabs">
       <button class="tab on" data-t="dash">الرئيسية</button>
-      <button class="tab" data-t="orders">الطلبات</button>
       <button class="tab" data-t="products">المنتجات</button>
     </div>
   </header>
@@ -246,10 +228,6 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
       <div class="stats">
         <div class="stat"><small>عدد المنتجات</small><b id="sProducts">0</b></div>
       </div>
-    </section>
-
-    <section id="t-orders" hidden>
-      <div class="panel"><div id="orders"></div></div>
     </section>
 
     <section id="t-products" hidden>
@@ -271,16 +249,13 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </main>
 </div>
 
-<!-- ============ النوافذ ============ -->
-<div id="backdrop" style="z-index: 9998;"></div>
+<div id="backdrop"></div>
 
-<div class="sheet center" id="authSheet" style="z-index: 9999;">
-  <div class="sh-head"><h3>حسابي</h3><button class="x" data-close>✕</button></div>
+<div class="sheet center" id="authSheet">
+  <div class="sh-head"><h3>تسجيل الدخول</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body">
-    <div class="authlogo"><img data-logo alt=""><p>سجّل دخولك أو أنشئ حساباً جديداً</p></div>
-    <div class="seg"><button class="on" data-m="login" type="button">دخول</button><button data-m="signup" type="button">حساب جديد</button></div>
+    <div class="authlogo"><img data-logo alt=""><p>سجّل دخولك كمدير</p></div>
     <form id="authForm">
-      <div class="fld" id="fName" hidden><label>الاسم</label><input class="inp" id="aName" placeholder="اسمك"></div>
       <div class="fld"><label>رقم الموبايل</label><input class="inp" id="aPhone" type="tel" placeholder="01012345678" maxlength="11" required></div>
       <div class="fld"><label>كلمة المرور</label><input class="inp" id="aPass" type="password" required></div>
       <div class="err" id="authErr"></div>
@@ -289,7 +264,7 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
   </div>
 </div>
 
-<aside class="sheet drawer" id="cartSheet" style="z-index: 9999;">
+<aside class="sheet drawer" id="cartSheet">
   <div class="sh-head"><h3>🛒 سلة المشتريات</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body" id="items"></div>
   <div class="cart-foot" id="cartFoot">
@@ -300,11 +275,10 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
       <div class="fld"><textarea class="inp" id="cAddr" rows="2" placeholder="العنوان بالتفصيل" required></textarea></div>
       <button class="btn or full" id="sendBtn" type="submit">تأكيد وإرسال الطلب</button>
     </form>
-    <button class="btn full" id="needLogin" hidden>سجّل دخولك لإتمام الطلب</button>
   </div>
 </aside>
 
-<div class="sheet center" id="menuSheet" style="z-index: 9999;">
+<div class="sheet center" id="menuSheet">
   <div class="sh-head"><h3>حسابي</h3><button class="x" data-close>✕</button></div>
   <div class="sh-body">
     <button class="menu-item red" id="mLogout">تسجيل الخروج</button>
@@ -315,8 +289,8 @@ footer{background:#0f2a1a;color:#c9ecd6;text-align:center;padding:28px 16px;marg
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, collection, doc, addDoc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCAGNcDQnU93Yf85NpwijgIKJEJZMoyZUM",
@@ -353,7 +327,6 @@ function closeSheets() {
 $("backdrop").onclick = closeSheets;
 document.querySelectorAll("[data-close]").forEach(b => b.onclick = closeSheets);
 
-// جلب المنتجات
 onSnapshot(collection(db, "products"), snap => {
   products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   renderProducts();
@@ -398,41 +371,20 @@ function renderCart() {
   $("fab").classList.toggle("hide", !count);
   $("cartFoot").hidden = !ids.length;
   $("orderForm").hidden = !user || !ids.length;
-  $("needLogin").hidden = !!user || !ids.length;
   localStorage.setItem("baraka_cart", JSON.stringify(cart));
 }
 
 $("cartBtn").onclick = $("fab").onclick = () => openSheet("cartSheet");
-$("needLogin").onclick = () => openSheet("authSheet");
 $("loginBtn").onclick = () => openSheet("authSheet");
 $("userBtn").onclick = () => openSheet("menuSheet");
-
-// التبديل بين الدخول وإنشاء حساب
-document.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
-  document.querySelectorAll(".seg button").forEach(x => x.classList.toggle("on", x === b));
-  const su = b.dataset.m === "signup";
-  $("fName").hidden = !su; $("aName").required = su;
-  $("authBtn").textContent = su ? "إنشاء حساب" : "دخول";
-});
 
 $("authForm").onsubmit = async e => {
   e.preventDefault();
   $("authBtn").disabled = true;
-  $("authErr").textContent = "";
-  const phone = $("aPhone").value.trim();
-  const pass = $("aPass").value;
-  
   try {
-    if ($("aName").required) {
-      await createUserWithEmailAndPassword(auth, phone + "@baraka.app", pass);
-      alert("تم إنشاء الحساب بنجاح!");
-    } else {
-      await signInWithEmailAndPassword(auth, phone + "@baraka.app", pass);
-    }
+    await signInWithEmailAndPassword(auth, $("aPhone").value.trim() + "@baraka.app", $("aPass").value);
     closeSheets();
-  } catch(err) { 
-    $("authErr").textContent = "تأكد من البيانات (أو أن الحساب موجود بالفعل)"; 
-  }
+  } catch(err) { $("authErr").textContent = "بيانات خاطئة"; }
   $("authBtn").disabled = false;
 };
 
@@ -495,10 +447,12 @@ function renderAdminProducts() {
 }
 window.delP = id => deleteDoc(doc(db, "products", id));
 
-onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), s => {
-  if(!isAdmin) return;
-  $("orders").innerHTML = s.docs.map(d => { const o = d.data(); return `<div class="panel">${o.name} - ${o.total}</div>`; }).join("");
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("on"));
+  t.classList.add("on");
+  $("t-products").hidden = t.dataset.t !== "products";
+  $("t-dash").hidden = t.dataset.t !== "dash";
 });
 </script>
 </body>
-  </html>
+      </html>
